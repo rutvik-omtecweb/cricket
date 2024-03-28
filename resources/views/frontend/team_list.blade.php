@@ -27,6 +27,10 @@
             margin: 10px;
         }
 
+        .table a{
+            color: white !important;
+        }
+
         th,
         td {
             color: white !important;
@@ -72,7 +76,7 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td style="min-width: 60px; width: 100px;"><img src="{{ $team->image }}" alt="" style="width: 100%"><span
                                                 style="margin-left: 10px;"></span></td>
-                                        <td>{{ $team->team_name }}</td>
+                                        <td><a href="{{route('team.teamDetails', ['id' => $team->id])}}">{{ $team->team_name }}</a></td>
                                         <td>0.0</td>
                                         <td>0.0</td>
                                         <td>0.0</td>

@@ -12,35 +12,8 @@ class GeneralSetting extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'site_name', 'phone', 'logo', 'favicon', 'email',
-        'copyright_text', 'address',
+        'site_name', 'phone', 'email', 'address',
         'is_active'
     ];
 
-
-    public function getLogoAttribute($value)
-    {
-        if ($value) {
-            if (File::exists(public_path('storage/setting/' . $value))) {
-                return asset('storage/setting/' . $value);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    public function getFaviconAttribute($value)
-    {
-        if ($value) {
-            if (File::exists(public_path('storage/setting/' . $value))) {
-                return asset('storage/setting/' . $value);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
 }

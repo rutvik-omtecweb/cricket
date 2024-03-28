@@ -15,11 +15,8 @@ return new class extends Migration
             $table->uuid('id')->default(\Illuminate\Support\Str::uuid())->primary();
             $table->text('site_name')->nullable();
             $table->text('phone')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('favicon')->nullable();
             $table->string('email')->nullable();
             $table->longText('address')->nullable();
-            $table->text('copyright_text')->nullable();
             $table->boolean('maintenance')->default(1);
             $table->text('meta_title')->nullable();
             $table->text('meta_tag')->nullable();

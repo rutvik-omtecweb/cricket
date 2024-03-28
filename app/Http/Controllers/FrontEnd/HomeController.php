@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Models\News;
 use App\Models\Team;
+use App\Models\TeamMember;
 use App\Models\User;
 use App\Models\Event;
 use SimpleXMLElement;
@@ -96,6 +97,13 @@ class HomeController extends Controller
     {
         $teams = Team::active()->get();
         return view('frontend.team_list', compact('teams'));
+    }
+
+    public function teamDetails($id)
+    {
+        $team = Team::where('id', $id)->first();
+        $team_members = TeamMember::where('team_id', $id)->get();
+        return view('frontend.team_detail', compact('team', 'team_members'));
     }
 
     public function memberList(Request $request)

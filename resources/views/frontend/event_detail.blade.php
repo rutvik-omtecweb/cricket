@@ -18,8 +18,9 @@
 @endsection
 @section('content')
 
-    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
-        <div class="page-title">
+    <section class="inner-header aboutus">
+        <img src="{{ asset('storage/frontend/assets/dist/images/about-header.jpg') }}" alt="" class="img-fluid w-100 ">
+        <div class="innerheader-text">
             <h2>Event Detail<br> CRICKET ASSOCIATION</h2>
         </div>
     </section>
@@ -63,7 +64,7 @@
                     <div class="event-details">
                         <h5 style="color: #0A2D7C;"> <strong>Location :</strong> </h5>
                         <p>
-                            {{ @$event->description }}
+                            {{ @$event->location }}
                         </p>
                     </div>
                 </div>
@@ -82,7 +83,7 @@
                 <div class="col-md-6">
                     <div class="event-details">
                         <p>
-                            {{ @$event->description }}
+                            {!! @$event->description !!}
                         </p>
                     </div>
                 </div>

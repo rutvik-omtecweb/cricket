@@ -28,7 +28,7 @@
                                 <div class="description">
                                     <h2 class="mb-4">{{ $event->title }}</h2>
                                     {{-- <p>{{ $event->description }}</p> --}}
-                                    <a href="{{ route('event.detail', $event->id) }}" class="event-link">Know More</a>
+                                    <a href="{{ route('event.detail', $event->id) }}" class="event-link">Read More</a>
                                 </div>
                             </div>
                         </div>

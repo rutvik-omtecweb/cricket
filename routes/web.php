@@ -24,6 +24,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\GeneralSettingController;
 use App\Http\Controllers\Admin\HomePageContentController;
 use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\NewJoinMemberController;
 use App\Http\Controllers\Admin\PaymentConfigController;
 use App\Http\Controllers\Admin\PhotosController;
@@ -93,6 +94,7 @@ Route::get('privacy-policy', [HomeController::class, 'cmsPrivacy'])->name('cms.p
 
 //team-list route
 Route::get('team-list', [HomeController::class, 'teamList'])->name('team.list');
+Route::get('team-details/{id}', [HomeController::class, 'teamDetails'])->name('team.teamDetails');
 
 //member-list route
 Route::get('member-list', [HomeController::class, 'memberList'])->name('member.list');
@@ -219,6 +221,11 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
 
     //live-score
     Route::resource('live-score', LiveScoreController::class);
+
+    //admin-user
+    Route::resource('admin-user', AdminUserController::class);
+    Route::get('get-adminuser', [AdminUserController::class, 'getAdminUser'])->name('get.admin.user');
+    // Route::get('toggle-tournaments/{id}', [TournamentController::class, 'toggleTournament']);
 });
 
 Route::get('/load-more-images', [HomeController::class, 'loadMoreImages'])->name('loadMoreImages');

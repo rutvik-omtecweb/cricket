@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->uuid('id')->default(\Illuminate\Support\Str::uuid())->primary();
             $table->longText('team_name')->nullable();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
             $table->foreignUuid('created_by')->nullable();

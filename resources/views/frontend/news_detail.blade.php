@@ -53,6 +53,13 @@
     </style>
 @endsection
 @section('content')
+
+<section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+    <div class="page-title">
+        <h2>News<br> {{ @$news->news_name }}</h2>
+    </div>
+</section>
+
     <main>
         <section class="inner-header aboutus" style="margin-top: 170px;">
             <div class="container">

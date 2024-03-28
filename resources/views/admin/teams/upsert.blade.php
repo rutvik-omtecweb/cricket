@@ -40,7 +40,7 @@
             <div class="card col-md-8">
                 <div class="card-body">
                     <div class="row ">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="team_name">Name <span class="validation">*</span></label>
                                 <input type="text" name="team_name" class="form-control" id="team_name" maxlength="100"
@@ -52,7 +52,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputFile">Image <span class="validation">*</span></label>
                                 <div class="">
@@ -69,7 +69,16 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <img id="blah"
+                                style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
+                                @if (@$teams->image) src="{{ @$teams->image }}"
+                                    @else
+                                        src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
+                                onerror="this.src='{{ URL::asset('storage/default/img1.jpg') }}'" alt="Your Slider Image"
+                                width="200px" height="150px" />
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 @php
                                     // $selectedMembers = explode(',', @$teams->member_id);
@@ -102,7 +111,7 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="fom-group">
                                 <label for="exampleInputFile">Description </label>
                                 <textarea name="description" id="description" placeholder="Description" cols="20" rows="10"
@@ -118,15 +127,7 @@
                                 <span class="content_error" id="content_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-3">
-                            <img id="blah"
-                                style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
-                                @if (@$teams->image) src="{{ @$teams->image }}"
-                                    @else
-                                        src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
-                                onerror="this.src='{{ URL::asset('storage/default/img1.jpg') }}'" alt="Your Slider Image"
-                                width="200px" height="150px" />
-                        </div>
+                        
 
                     </div>
                 </div>
@@ -153,7 +154,7 @@
 
         $(function() {
             $('#description').summernote({
-                height: 450 // Set the height to 300 pixels
+                height: 500 // Set the height to 300 pixels
             });
         });
 

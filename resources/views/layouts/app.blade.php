@@ -37,7 +37,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--================= site favicon icon =================-->
-    <link rel="shortcut icon" type="image/png" href="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}">
 
     @yield('links')
     <script>
@@ -97,8 +97,7 @@
                 <nav class="navbar navbar-expand-lg p-0 m-0">
                     <div class="container-fluid">
                         <a class="navbar-brand ms-5" href="{{ route('home') }}"><img
-                                 src="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}" 
-                                src="{{ URL::asset('storage/admin/default/img1.jpg') }}"
+                                 src="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}"
                                 class="img-fluid" alt="" style="border-radius: 50%;width: 115px;"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -113,10 +112,12 @@
                                 </li> --}}
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle {{ Request::is('about-us') ? 'active' : '' }} "
-                                        href="{{ route('about.us') }}">About</a>
+                                        href="#">About</a>
                                     <ul class="dropdown-menu">
-                                        <a class="dropdown-item  {{ Request::is('photo-gallery') ? 'active' : '' }} "
-                                            href="{{ route('photo.gallery') }}">Photos</a>
+                                        <li><a class="dropdown-item" href="{{ route('about.us') }}">About US</a></li>
+                                        <li><a class="dropdown-item  {{ Request::is('photo-gallery') ? 'active' : '' }} "
+                                            href="{{ route('photo.gallery') }}">Photos</a></li>
+                                        
                                         <li><a class="dropdown-item" href="{{ route('by.laws') }}">By Laws</a></li>
                                         <li><a class="dropdown-item {{ Request::is('league-rules') ? 'active' : '' }}"
                                                 href="{{ route('league.rules') }}">League Rules</a></li>
@@ -132,12 +133,15 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle {{ Request::is('team-list') ? 'active' : '' }} "
-                                        href="{{ route('team.list') }}">Team</a>
+                                        href="#">Registration</a>
 
                                     <ul class="dropdown-menu">
+                                   
                                         <li><a class="dropdown-item" href="{{ route('member.list') }}">Members</a>
                                         </li>
                                         <li><a class="dropdown-item" href="{{ route('become.player') }}">Player</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('team.list') }}">Team</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -214,7 +218,7 @@
                         <div class="single_footer single_footer_address">
                             <h4>About</h4>
                             <div>
-                                <p><img src="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}" 
+                                <p><img src="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}" 
                                         alt="" style="border-radius: 50%;width: 115px;"></p>
                             </div>
                         </div>

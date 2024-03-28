@@ -1,7 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{ route('admin.dashboard') }}" class="brand-link text-center">
-        <img @if (@$general_setting->logo) src="{{ @$general_setting->logo }}"
-        @else src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
+        <img src="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}"
             onerror="this.src='{{ URL::asset('storage/admin/default/img1.jpg') }}'" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: 1;background-color: #fff;height: 33px;width: 33px;">
@@ -126,6 +125,8 @@
 
                                                 @case('About US')
                                                 @case('Contact Us')
+
+                                                @case('Admin User')
 
                                                     @default
                                                         @if (Auth::user()->hasAnyRole(['super admin', 'admin']))

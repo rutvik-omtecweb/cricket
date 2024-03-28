@@ -13,6 +13,9 @@
 
     <div class="container">
         <div class="row">
+            <div class="col-12 text-left btn-div">
+                <a href="{{route('register')}}" class="btn btn-primary default-btn extra-btn">Become a Member</a>
+            </div>
             @if (count($members) > 0)
                 @foreach ($members as $member)
                     <div class="col-lg-3 col-12 col-sm-6 member-list-main">

@@ -45,14 +45,14 @@
             @if (@$cms_page->id)
                 @method('PUT')
             @endif
-            <div class="card col-6">
+            <div class="card col-8">
 
                 <div class="card-body">
                     <input type="text" name="id" value="{{ @$cms_page->id }}" hidden="">
                     <div class="row">
                         <div class="" id="here">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="cms_page_name">Name <span class="validation">*</span></label>
                                         <input type="text" name="cms_page_name" class="form-control" id="cms_page_name"
@@ -65,7 +65,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Url <span class="validation">*</span></label>
                                         <input type="text" id="url" class="form-control" name="url"
@@ -78,7 +78,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Meta Title <span class="validation">*</span></label>
                                         <input type="text" id="meta_title" class="form-control" name="meta_title"
@@ -92,7 +92,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Meta Tag <span class="validation">*</span></label>
                                         <input type="type" id="meta_tag" class="form-control" name="meta_tag"
@@ -106,7 +106,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Meta Tag Keyword <span
                                                 class="validation">*</span></label>
@@ -121,7 +121,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Meta Description <span
                                                 class="validation">*</span></label>
@@ -177,7 +177,7 @@
     <script>
         $(document).ready(function() {
             var t = $('#body').summernote({
-                height: 350,
+                height: 500,
                 focus: true
             });
             $("#btn").click(function() {

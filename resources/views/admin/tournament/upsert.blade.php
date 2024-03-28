@@ -38,10 +38,10 @@
                 @method('PUT')
             @endif
 
-            <div class="card col-md-6">
+            <div class="card col-md-8">
                 <div class="card-body">
                     <div class="row ">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="title">Title <span class="validation">*</span></label>
                                 <input type="text" name="title" class="form-control" id="title" maxlength="35"
@@ -53,7 +53,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputFile">Image <span class="validation">*</span></label>
                                 <div class="">
@@ -70,7 +70,16 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <img id="blah"
+                                style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
+                                @if (@$tournament->image) src="{{ @$tournament->image }}"
+                                    @else
+                                        src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
+                                onerror="this.src='{{ URL::asset('storage/default/img1.jpg') }}'" alt="Your Slider Image"
+                                width="200px" height="150px" />
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="title">Type <span class="validation">*</span></label>
                                 <select name="type" id="type" class="form-control select2">
@@ -83,7 +92,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="fom-group">
                                 <label for="exampleInputFile">Description </label>
                                 <textarea name="description" id="content" placeholder="Description" cols="20" rows="10" maxlength="250"
@@ -98,15 +107,7 @@
                                 <span class="content_error" id="content_error"></span>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-3">
-                            <img id="blah"
-                                style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
-                                @if (@$tournament->image) src="{{ @$tournament->image }}"
-                                    @else
-                                        src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
-                                onerror="this.src='{{ URL::asset('storage/default/img1.jpg') }}'" alt="Your Slider Image"
-                                width="200px" height="150px" />
-                        </div>
+                       
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -132,7 +133,7 @@
 
         $(function() {
             $('#content').summernote({
-                height: 300 // Set the height to 300 pixels
+                height: 500 // Set the height to 300 pixels
             });
         });
 

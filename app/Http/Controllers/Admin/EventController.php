@@ -44,8 +44,6 @@ class EventController extends Controller
             'start_date' => 'required',
             'end_date' => 'required',
             'number_of_team' => 'required',
-            'team_price' => 'required',
-            'participant_price' => 'required',
         ]);
 
         if ($request->hasFile('image')) {
@@ -124,8 +122,6 @@ class EventController extends Controller
             'start_date' => 'required',
             'end_date' => 'required',
             'number_of_team' => 'required',
-            'team_price' => 'required',
-            'participant_price' => 'required',
         ]);
 
         $event = Event::findOrFail($id);

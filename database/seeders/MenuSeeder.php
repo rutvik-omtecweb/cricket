@@ -191,5 +191,13 @@ class MenuSeeder extends Seeder
             'parent_id' => $setting->id,
             'order' => 3,
         ]);
+
+        Menu::create([
+            'menu_name' => 'Admin User',
+            'icon' => 'fa-user-cog',
+            'page_url' => 'admin.admin-user.index',
+            'parent_id' => $setting->id,
+            'order' => 3,
+        ]);
     }
 }

@@ -2,15 +2,7 @@
 <html lang="en">
 
 <head>
-    @php
-        $general_setting = general_setting();
-        $favicon = '';
-        if (!empty($general_setting)) {
-            $favicon = $general_setting->favicon;
-        } else {
-            $favicon = URL::asset('storage/frontend/assets/dist/assets/favicon.png');
-        }
-    @endphp
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> @if (@$general_setting->site_name)
@@ -19,7 +11,7 @@
         Admin
         Dashboard
     @endif </title>
-    <link rel="shortcut icon" type="image/png" href="{{ @$favicon }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

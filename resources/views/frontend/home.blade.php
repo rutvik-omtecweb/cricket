@@ -9,15 +9,15 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
-            padding-top: 200px;
+            z-index: 1000;
+            padding-top: 110px;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: #181818e3;
+            background-color: #181818e3;
         }
 
         /* Modal Content (image) */
@@ -270,6 +270,11 @@
                 <h3 class="text-center">Past Tournaments Not Found!!</h3>
             @endif
             <div id="myModal" class="modal">
+                <div class="modal-header">
+                    <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <img class="modal-content" id="img01">
             </div>
         </section>

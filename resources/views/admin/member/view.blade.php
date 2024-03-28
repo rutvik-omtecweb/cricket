@@ -63,18 +63,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($user->payment_collect)
-                                <div class="row mt-2">
-                                    <div class="col-12">
-                                        <div class="form-control">
-                                            <i class="far fa-calendar-times" aria-hidden="true"></i>
-                                            <span style="padding-left: 10px;">
-                                                {{ $user->payment_collect->expired_date }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                           
 
                             @if ($user['dob'])
                                 <div class="row mt-2">
@@ -112,8 +101,149 @@
                                 </div>
                             @endif
                         </div>
+
+                        
                     </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            Member Payment Information
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            @if ($user->payment_collect)
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-calendar-times" aria-hidden="true"></i>
+                                        <label>Start Date :- </label>
+                                        <span style="padding-left: 10px;">
+                                            {{ $user->payment_collect->created_at }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-calendar-times" aria-hidden="true"></i>
+                                        <label>Expiry Date :- </label>
+                                        <span style="padding-left: 10px;">
+                                            {{ $user->payment_collect->expired_date }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-credit-card" aria-hidden="true"></i>
+                                        <label>Payment Type :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $user->payment_collect->payment_type }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-money-bill-alt"></i>
+                                        <label>Amount :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $user->payment_collect->amount }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if ($user->payment_collect->transaction_id)
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="fas fa-money-check-alt"></i>
+                                        <label>Transaction Id :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $user->payment_collect->transaction_id }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                        @endif
+                        </div>
+                    </div>
+
+
                     @if (!empty($player))
+                    <div class="card">
+                        <div class="card-header">
+                            Player Payment Detail
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-calendar-times" aria-hidden="true"></i>
+                                        <label>Start Date :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ \Carbon\Carbon::parse($player->created_at)->format('d-M-Y, g:i A') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-calendar-times" aria-hidden="true"></i>
+                                        <label>Start Date :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ \Carbon\Carbon::parse($player->created_at)->format('d-M-Y, g:i A') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-credit-card" aria-hidden="true"></i>
+                                        <label>Payment Type :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $player->payment_type }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="far fa-money-bill-alt"></i>
+                                        <label>Amount :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $player->amount }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <div class="form-control">
+                                        <i class="fas fa-stream"></i>
+                                        <label>Status :- </label>
+                                        <span style="padding-left: 10px; text-transform:capitalize;">
+                                            {{ $player->status }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- @if (!empty($player))
                         <div class="card">
                             <div class="card-header">
                                 Player Payment Detail
@@ -144,7 +274,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
                 <div class="col-lg-9">
                     <!-- Card -->
