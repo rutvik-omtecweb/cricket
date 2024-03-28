@@ -60,20 +60,25 @@ class LoginController extends Controller
     //admin login
     public function adminLogin(Request $request)
     {
+        $user = User::where("email", $request->email)->first();
         $this->validateLogin($request);
+        if ($user->is_active == 0) {
+            return redirect()->route('admin.login')->with('message', '* These credentials do not match our records.');
+        } else {
 
-        if ($this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);
+            if ($this->hasTooManyLoginAttempts($request)) {
+                $this->fireLockoutEvent($request);
+                return $this->sendLockoutResponse($request);
+            }
+
+            if ($this->attemptLogin($request)) {
+                $this->handleSuccessfulLogin($request);
+                return $this->sendLoginResponse($request);
+            }
+
+            $this->incrementLoginAttempts($request);
+            return $this->sendFailedLoginResponse($request);
         }
-
-        if ($this->attemptLogin($request)) {
-            $this->handleSuccessfulLogin($request);
-            return $this->sendLoginResponse($request);
-        }
-
-        $this->incrementLoginAttempts($request);
-        return $this->sendFailedLoginResponse($request);
     }
 
     protected function authenticated(Request $request, $user)

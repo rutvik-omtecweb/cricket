@@ -13,11 +13,11 @@
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                         </li>
-                                        <li class="breadcrumb-item ">Teams List</li>
+                                        <li class="breadcrumb-item ">Admin User List</li>
                                     </ol>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <a href="{{ route('admin.teams.create') }}" class="btn btn-primary">
+                                    <a href="{{ route('admin.admin-user.create') }}" class="btn btn-primary">
                                         <i class="fa fa-plus"></i>&nbsp;Add</a>
                                 </div>
                             </div>
@@ -30,8 +30,11 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Image</th>
-                                <th>Name</th>
-                                <th>Members</th>
+                                <th>User Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -54,15 +57,15 @@
                 ajax: {
                     processing: true,
                     serverSide: true,
-                    url: "{{ route('get.admin.user') }}",
+                    url: "{{ route('admin.get.admin.user') }}",
                 },
 
-                columns: [{
-                        width: "20%",
+                columns: [
+                    {
                         data: 'image',
                         render: function(data, type, row) {
                             return "<img src='" + row
-                                .image + "' height='100' width='200'>";
+                                .image + "' class='user-setting'>";
                         }
                     },
                     {
@@ -80,9 +83,6 @@
                     {
                         data: 'phone',
                     },
-                    // {
-                    //     data: 'description',
-                    // },
                     {
                         data: 'is_active',
                         render: function(data, type, row) {
@@ -100,12 +100,12 @@
                         data: 'action',
                         render: function(data, type, row) {
                             let html = "";
-                            html += "<a class='delete' href='" + BASE_URL + "/admin/teams/" +
+                            html += "<a class='delete' href='" + BASE_URL + "/admin/admin-user/" +
                                 row.id +
                                 "/edit'><i class='fa fa-edit'></i></a>"
 
                             html +=
-                                "<button type='submit' class='delete' style='border:0px;' onclick='deleteTeam(\"" +
+                                "<button type='submit' class='delete' style='border:0px;' onclick='deleteUser(\"" +
                                 row.id +
                                 "\")'><i class='fa fa-trash' style='color:red'></i></button>";
                             return html;
@@ -114,37 +114,9 @@
                 ],
             });
 
-            // $.validator.addMethod('filesize', function(value, element, param) {
-            //     return this.optional(element) || (element.files[0].size <= param * 1000000)
-            // }, 'File size must be less than {0} MB');
-
-            $("#news_form").validate({
-                rules: {
-                    description: {
-                        required: true,
-                    },
-                    image: {
-                        required: function() {
-                            var image = $('#old_image').val();
-                            return image == null || image == "" || image == undefined;
-                        },
-                        extension: "jpg|jpeg|png",
-                        // filesize: 2
-                    },
-                },
-                errorPlacement: function(error, element) {
-                    if (element.attr("name") == "icon") {
-                        error.appendTo('#rating_error');
-                    } else if (element.attr("name") == "image") {
-                        error.appendTo('#image_error');
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
         });
 
-        function deleteTeam(id) {
+        function deleteUser(id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -160,7 +132,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
-                    var userURL = BASE_URL + "/admin/teams/" + id;
+                    var userURL = BASE_URL + "/admin/admin-user/" + id;
 
                     $.ajax({
                         url: userURL,
@@ -192,7 +164,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
-                    var userURL = BASE_URL + "/admin/toggle-teams/" + id;
+                    var userURL = BASE_URL + "/admin/toggle-adminuser/" + id;
                     $.ajax({
                         url: userURL,
                         type: "GET",

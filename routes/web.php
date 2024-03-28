@@ -225,7 +225,7 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
     //admin-user
     Route::resource('admin-user', AdminUserController::class);
     Route::get('get-adminuser', [AdminUserController::class, 'getAdminUser'])->name('get.admin.user');
-    // Route::get('toggle-tournaments/{id}', [TournamentController::class, 'toggleTournament']);
+    Route::get('toggle-adminuser/{id}', [AdminUserController::class, 'toggleAdminUser']);
 });
 
 Route::get('/load-more-images', [HomeController::class, 'loadMoreImages'])->name('loadMoreImages');

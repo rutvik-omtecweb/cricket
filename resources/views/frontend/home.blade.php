@@ -249,7 +249,7 @@
                                                 <div class="card-img ">
                                                     <img src="{{ $p_tournament->image }}" class="img-fluid rounded-4 myImg">
                                                 </div>
-                                                <div class="card-img-overlay">{{ $p_tournament->title }}</div>
+                                                <div class="card-img-overlay mytitle">{{ $p_tournament->title }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -276,6 +276,7 @@
                     </button>
                 </div>
                 <img class="modal-content" id="img01">
+                <p id="title"></p>
             </div>
         </section>
 
@@ -303,8 +304,10 @@
     <script>
         // Get the modal
         var images = document.getElementsByClassName('myImg');
+        var title = document.getElementsByClassName('mytitle');
         var modal = document.getElementById('myModal');
         var modalImg = document.getElementById("img01");
+        var modalTitle = document.getElementById("title");
 
         // Loop through all images and attach click event
         for (var i = 0; i < images.length; i++) {
@@ -312,6 +315,7 @@
                 modal.style.display = "block";
                 modalImg.src = this.src;
                 modalImg.alt = this.alt;
+                modalTitle.src = this.text;
                 captionText.innerHTML = this.alt;
             }
         }
