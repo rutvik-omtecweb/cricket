@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </section>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Inner News</a>

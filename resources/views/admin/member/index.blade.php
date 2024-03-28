@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </section>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table id="memberTable" class="table table-borderless table-thead-bordered table-align-middle"
                         style="border: 1px solid #dee2e6;border-radius: 4px;">
                         <thead class="thead-light">
