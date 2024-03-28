@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 
 class NewJoinMemberController extends Controller
 {
@@ -13,7 +14,8 @@ class NewJoinMemberController extends Controller
      */
     public function index()
     {
-        return view('admin.member.new_index');
+        $setting = GeneralSetting::first();
+        return view('admin.member.new_index', compact('setting'));
     }
 
     /**

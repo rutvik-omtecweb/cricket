@@ -18,6 +18,9 @@ class GeneralSettingController extends Controller
     public function settingUpdate(Request $request, string $id)
     {
         $data = $request->all();
+        $data['health_card_document'] = $request->has('health_card_document') ? 1 : 0;
+        $data['licence_document'] = $request->has('licence_document') ? 1 : 0;
+        $data['other_document'] = $request->has('other_document') ? 1 : 0;
         if ($data['id'] == null) {
             if ($request->hasFile('logo')) {
                 $file = $request->file('logo');

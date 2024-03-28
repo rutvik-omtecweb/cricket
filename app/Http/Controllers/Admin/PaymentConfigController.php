@@ -15,7 +15,8 @@ class PaymentConfigController extends Controller
     {
         $payment = Payment::where('title', 'Member Registration Fees')->first();
         $player_payment = Payment::where('title', 'Player Fees')->first();
-        return view('admin.payment_config.index', compact('payment', 'player_payment'));
+        $team_payment = Payment::where('title', 'Team Registration Fees')->first();
+        return view('admin.payment_config.index', compact('payment', 'player_payment', 'team_payment'));
     }
 
     /**

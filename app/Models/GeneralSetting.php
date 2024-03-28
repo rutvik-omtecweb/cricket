@@ -13,7 +13,6 @@ class GeneralSetting extends Model
 
     protected $fillable = [
         'site_name', 'phone', 'email', 'address',
-        'is_active'
+        'is_active', 'health_card_document', 'licence_document', 'other_document'
     ];
-
 }

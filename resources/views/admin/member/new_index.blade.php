@@ -1,5 +1,12 @@
 @extends('layouts.admin')
-
+@section('style')
+    <style>
+        .verification-image {
+            border: 2px solid #838383;
+            border-radius: 7px;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="cards card-defaults">
@@ -9,7 +16,6 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <!-- Left side content -->
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                         </li>
@@ -17,23 +23,25 @@
                                     </ol>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <!-- Right side content -->
-                                    {{-- <a href="#" class="btn btn-primary">
-                                        <i class="fa fa-plus"></i>&nbsp;Add
-                                    </a> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table id="memberTable" class="table table-borderless table-thead-bordered table-align-middle"
                         style="border: 1px solid #dee2e6;border-radius: 4px;">
                         <thead class="thead-light">
                             <tr>
-                                <th>Identification</th>
-                                <th></th>
-                                <th></th>
+                                @if (@$setting->health_card_document == 1)
+                                    <th>Health Card Document</th>
+                                @endif
+                                @if (@$setting->licence_document == 1)
+                                    <th>Licence Document</th>
+                                @endif
+                                @if (@$setting->other_document == 1)
+                                    <th>Other Document</th>
+                                @endif
                                 <th>User Name</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -64,43 +72,55 @@
                     url: "{{ route('admin.get.new.member') }}",
                 },
 
-                columns: [{
-                        width: "10%",
-                        data: 'id1',
-                        render: function(data, type, row) {
-                            if (row.verification_id_1) {
-                                return "<img src='" + "{{ URL::asset('storage/member') }}" + "/" +
-                                    row.verification_id_1 + "' height='200' width='200'>";
-                            } else {
-                                return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                columns: [
+                    @if (@$setting->health_card_document == 1)
+                        {
+                            data: 'health_card_document',
+                            render: function(data, type, row) {
+                                if (row.verification_id_1) {
+                                    return "<img src='" + "{{ URL::asset('storage/member') }}" +
+                                        "/" +
+                                        row.verification_id_1 +
+                                        "' height='200' width='200' class='verification-image'>";
+                                } else {
+                                    return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                                }
                             }
-                        }
-                    },
-                    {
-                        width: "10%",
-                        data: 'id1',
-                        render: function(data, type, row) {
-                            if (row.verification_id_2) {
-                                return "<img src='" + "{{ URL::asset('storage/member') }}" + "/" +
-                                    row.verification_id_2 + "' height='200' width='200'>";
-                            } else {
-                                return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                        },
+                    @endif
+                    @if (@$setting->licence_document == 1)
+
+                        {
+                            width: "10%",
+                            data: 'licence_document',
+                            render: function(data, type, row) {
+                                if (row.verification_id_2) {
+                                    return "<img src='" + "{{ URL::asset('storage/member') }}" +
+                                        "/" +
+                                        row.verification_id_2 +
+                                        "' height='200' width='200' class='verification-image'>";
+                                } else {
+                                    return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                                }
                             }
-                        }
-                    },
-                    {
-                        width: "10%",
-                        data: 'id1',
-                        render: function(data, type, row) {
-                            if (row.verification_id_3) {
-                                return "<img src='" + "{{ URL::asset('storage/member') }}" + "/" +
-                                    row.verification_id_3 + "' height='200' width='200'>";
-                            } else {
-                                return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                        },
+                    @endif
+                    @if (@$setting->other_document == 1)
+                        {
+                            width: "10%",
+                            data: 'other_document',
+                            render: function(data, type, row) {
+                                if (row.verification_id_3) {
+                                    return "<img src='" + "{{ URL::asset('storage/member') }}" +
+                                        "/" +
+                                        row.verification_id_3 +
+                                        "' height='200' width='200' class='verification-image'>";
+                                } else {
+                                    return "<img src='{{ URL::asset('storage/admin/default/img1.jpg') }}' height='100' width='100'>";
+                                }
                             }
-                        }
-                    },
-                    {
+                        },
+                    @endif {
                         data: 'user_name',
                     },
                     {

@@ -216,9 +216,9 @@ class RegisterController extends Controller
             'terms_and_conditions' => $terms_and_conditions,
             'living_rmwb_for_3_month' => $living_rmwb_for_3_month,
             'not_member_of_cricket' => $not_member_of_cricket,
-            'verification_id_1' => $v1_image_name,
-            'verification_id_2' => $v2_image_name,
-            'verification_id_3' => $v3_image_name,
+            'verification_id_1' => @$v1_image_name,
+            'verification_id_2' => @$v2_image_name,
+            'verification_id_3' => @$v3_image_name,
         ]);
 
         $user->assignRole('member');
