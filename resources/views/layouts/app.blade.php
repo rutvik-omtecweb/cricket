@@ -5,12 +5,6 @@
     @php
 
         $general_setting = general_setting();
-        $favicon = '';
-        if (!empty($general_setting)) {
-            $favicon = $general_setting->favicon;
-        } else {
-            $favicon = URL::asset('storage/frontend/assets/dist/assets/favicon.png');
-        }
         $cms = cms();
         $live_score = live_score();
     @endphp
@@ -43,7 +37,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--================= site favicon icon =================-->
-    <link rel="shortcut icon" type="image/png" href="{{ @$favicon }}">
+    <link rel="shortcut icon" type="image/png" href="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}">
 
     @yield('links')
     <script>
@@ -103,8 +97,8 @@
                 <nav class="navbar navbar-expand-lg p-0 m-0">
                     <div class="container-fluid">
                         <a class="navbar-brand ms-5" href="{{ route('home') }}"><img
-                                @if ($general_setting->logo) src="{{ $general_setting->logo }}" @else
-                                src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
+                                 src="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}" 
+                                src="{{ URL::asset('storage/admin/default/img1.jpg') }}"
                                 class="img-fluid" alt="" style="border-radius: 50%;width: 115px;"></a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -220,22 +214,11 @@
                         <div class="single_footer single_footer_address">
                             <h4>About</h4>
                             <div>
-                                <p><img @if (@$general_setting->logo) src="{{ @$general_setting->logo }}" @else
-                                    src="{{ asset('storage/frontend/assets/dist/images/logo.png') }}" @endif
-                                        alt="" style="border-radius: 50%;height: 87px;width: 87px;"></p>Lorem
-                                ipsum dolor sit amet, consectetur adipiscing elit.
-                                Phasellus efficitur, lorem nec volutpat
-                                blandit,
+                                <p><img src="{{ URL::asset('storage/frontend/assets/dist/images/main-logo.png') }}" 
+                                        alt="" style="border-radius: 50%;width: 115px;"></p>
                             </div>
                         </div>
-                        <div class="social_profile">
-                            <ul>
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
+                        
                     </div><!--- END COL -->
                     <div class="col-md-8 col-sm-7 col-xs-12">
                         <div class="row">

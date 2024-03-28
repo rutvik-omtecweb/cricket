@@ -1,13 +1,12 @@
 @extends('layouts.app')
 @section('title', 'League Rules')
 @section('content')
-    <section class="inner-header aboutus">
-        <img src="{{ asset('storage/frontend/assets/dist/images/contact-header.jpg') }}" alt=""
-            class="img-fluid w-100 ">
-        <div class="innerheader-text">
+    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+        <div class="page-title">
             <h2>LEAGUE RULES</h2>
         </div>
     </section>
+
     <main>
         <section class=" about">
             <div class="container">

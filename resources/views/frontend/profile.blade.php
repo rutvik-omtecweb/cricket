@@ -30,9 +30,9 @@
     </style>
 @endsection
 @section('content')
-    <section class="inner-header aboutus">
-        <img src="{{ asset('storage/frontend/assets/dist/images/about-header.jpg') }}" alt="" class="img-fluid w-100 ">
-        <div class="innerheader-text">
+
+    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+        <div class="page-title">
             <h2>PROFILE<br> </h2>
         </div>
     </section>
