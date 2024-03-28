@@ -23,5 +23,10 @@ class PaymentConfigSeeder extends Seeder
             'title' => 'Player Fees',
             'amount' => '25',
         ]);
+
+        Payment::create([
+            'title' => 'Team Registration Fees',
+            'amount' => '30',
+        ]);
     }
 }

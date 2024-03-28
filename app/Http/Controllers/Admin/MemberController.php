@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Imports\MemberImport;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\File;
 
 class MemberController extends Controller
@@ -43,7 +44,8 @@ class MemberController extends Controller
     {
         $user = User::with('payment_collect')->findOrFail($id);
         $player = Player::where('user_id', $id)->where('status', 'success')->first();
-        return view('admin.member.view', compact('user', 'player'));
+        $setting = GeneralSetting::first();
+        return view('admin.member.view', compact('user', 'player', "setting"));
     }
 
     /**

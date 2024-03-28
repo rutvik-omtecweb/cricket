@@ -42,10 +42,10 @@
                                 <th>Title</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Number Of Team</th>
+                                {{-- <th>Number Of Team</th> --}}
                                 {{-- <th>Team Price</th> --}}
                                 {{-- <th>Participant Price</th> --}}
-                                <th>Payment Members</th>
+                                {{-- <th>Payment Members</th> --}}
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -91,24 +91,24 @@
                     {
                         data: 'end_date',
                     },
-                    {
-                        data: 'number_of_team',
-                    },
-                    {
-                        data: 'payment',
-                        render: function(data, type, row) {
-                            let html = "";
-                            html += "<a class='delete' href='" + BASE_URL +
-                                "/admin/purchase-team-view/" +
-                                row.id +
-                                "' Title='Purchase Team'><i class='fas fa-gift'></i></a> ";
-                            html += "<a class='delete' href='" + BASE_URL +
-                                "/admin/event-participant-payment-view/" +
-                                row.id +
-                                "' Title='Participant'><i class='fas fa-user-plus'></i></a>"
-                            return html;
-                        }
-                    },
+                    // {
+                    //     data: 'number_of_team',
+                    // },
+                    // {
+                    //     data: 'payment',
+                    //     render: function(data, type, row) {
+                    //         let html = "";
+                    //         html += "<a class='delete' href='" + BASE_URL +
+                    //             "/admin/purchase-team-view/" +
+                    //             row.id +
+                    //             "' Title='Purchase Team'><i class='fas fa-gift'></i></a> ";
+                    //         html += "<a class='delete' href='" + BASE_URL +
+                    //             "/admin/event-participant-payment-view/" +
+                    //             row.id +
+                    //             "' Title='Participant'><i class='fas fa-user-plus'></i></a>"
+                    //         return html;
+                    //     }
+                    // },
                     {
                         data: 'is_active',
                         render: function(data, type, row) {

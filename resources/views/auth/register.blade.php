@@ -185,49 +185,64 @@
                                         <button type="button" class="btn btn-primary next-btn">Next</button>
                                     </div>
                                 </div>
+                                @php
+                                    $general_setting = general_setting();
+                                @endphp
                                 <div class="step-content" id="step-2">
-                                    <div class="form-group row g-3 pb-3">
-                                        <div class="col-sm-6">
-                                            <label for="user_name" class="form-label login-label">Upload Health
-                                                Card</label>
-                                            <input type="file" class="form-control" name="verification_id_1"
-                                                id="verification_id_1" accept="image/*" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="image-preview-box mt-2">
-                                                <img src="#" alt="Health Image"
-                                                    class="img-thumbnail image-preview" id="health_image_preview">
+                                    @if (!empty($general_setting) && @$general_setting->health_card_document == 1)
+                                        <div class="form-group row g-3 pb-3">
+                                            <div class="col-sm-6">
+                                                <label for="user_name" class="form-label login-label">Upload Health
+                                                    Card</label>
+                                                <input type="file" class="form-control" name="verification_id_1"
+                                                    id="verification_id_1" accept="image/*" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="image-preview-box mt-2">
+                                                    <img src="#" alt="Health Image"
+                                                        class="img-thumbnail image-preview" id="health_image_preview">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row g-3 pb-3">
-                                        <div class="col-sm-6">
-                                            <input type="file" class="form-control" name="verification_id_2"
-                                                id="verification_id_2" accept="image/*" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="image-preview-box mt-2">
-                                                <img src="#" alt="Card Image"
-                                                    class="img-thumbnail image-preview" id="card_image_preview">
+                                    @endif
+                                    @if (!empty($general_setting) && @$general_setting->licence_document == 1)
+                                        <div class="form-group row g-3 pb-3">
+                                            <div class="col-sm-6">
+                                                <label for="user_name" class="form-label login-label">Licence
+                                                    Document</label>
+                                                <input type="file" class="form-control" name="verification_id_2"
+                                                    id="verification_id_2" accept="image/*" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="image-preview-box mt-2">
+                                                    <img src="#" alt="Card Image"
+                                                        class="img-thumbnail image-preview" id="card_image_preview">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row g-3 pb-3">
-                                        <div class="col-sm-6">
-                                            <input type="file" class="form-control" name="verification_id_3"
-                                                id="verification_id_3" accept="image/*" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="image-preview-box mt-2">
-                                                <img src="#" alt="Medical Image"
-                                                    class="img-thumbnail image-preview" id="medical_image_preview">
+                                    @endif
+                                    @if (!empty($general_setting) && @$general_setting->other_document == 1)
+                                        <div class="form-group row g-3 pb-3">
+                                            <div class="col-sm-6">
+                                                <label for="user_name" class="form-label login-label">Other
+                                                    Document</label>
+                                                <input type="file" class="form-control" name="verification_id_3"
+                                                    id="verification_id_3" accept="image/*" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="image-preview-box mt-2">
+                                                    <img src="#" alt="Medical Image"
+                                                        class="img-thumbnail image-preview"
+                                                        id="medical_image_preview">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" name="living_rmwb_for_3_month"
                                             class="form-check-input" id="living_rmwb_for_3_month">
-                                        <label class="form-check-label" for="living_rmwb_for_3_month">I am living in
+                                        <label class="form-check-label" for="living_rmwb_for_3_month">I am living
+                                            in
                                             RMWB region
                                             for
                                             3 months or more.</label>
@@ -236,7 +251,8 @@
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" name="not_member_of_cricket" class="form-check-input"
                                             id="not_member_of_cricket">
-                                        <label class="form-check-label" for="not_member_of_cricket">I am not member of
+                                        <label class="form-check-label" for="not_member_of_cricket">I am not
+                                            member of
                                             any
                                             other
                                             cricket league / association in Alberta</label>

@@ -76,7 +76,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <div class="form-group">
                                 <label for="number_of_team">Number Of Team <span class="validation">*</span></label>
                                 <input type="number" name="number_of_team" class="form-control" id="number_of_team"
@@ -87,7 +87,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputFile">Image <span class="validation">*</span></label>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="exampleInputFile">Location <span class="validation">*</span></label>
+                                <label for="exampleInputFile"><i class="fa fa-map-marker"></i>&nbsp;&nbsp; Location <span class="validation">*</span></label>
                                 <textarea name="location" id="location" cols="30" rows="2" class="form-control">{{ @$event->location }}</textarea>
                             </div>
                         </div>
@@ -213,9 +213,9 @@
                     required: true,
                     greaterThan: "#start_date"
                 },
-                number_of_team: {
-                    required: true,
-                },
+                // number_of_team: {
+                //     required: true,
+                // },
                 location: {
                     required: true,
                 },
