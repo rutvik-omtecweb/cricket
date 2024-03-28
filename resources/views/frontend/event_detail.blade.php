@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="row other-info text-center">
+            {{-- <div class="row other-info text-center">
                 <div class="col-12">
                     <p class="mainhead">Join Us</p>
                 </div>
@@ -130,7 +130,7 @@
                         </div>
                     @endif
                 @endauth
-            </div>
+            </div> --}}
         </div>
     </section>
 @endsection
