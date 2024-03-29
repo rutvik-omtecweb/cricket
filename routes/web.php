@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\PhotosController;
 use App\Http\Controllers\FrontEnd\ContactUsController as FrontEndContactUsController;
 use App\Http\Controllers\FrontEnd\EventPaymentController;
 use App\Http\Controllers\FrontEnd\PlayerController;
+use App\Http\Controllers\FrontEnd\TeamController as FrontEndTeamController;
 use App\Http\Controllers\LiveScoreController;
 
 /*
@@ -241,4 +242,12 @@ Route::group(['middleware' => ['auth', 'role:member', 'prevent-back-history']], 
     Route::post('join-participant', [EventPaymentController::class, 'joinParticipant'])->name('join.participant');
 
     Route::post('join-player', [PlayerController::class, 'joinPlayer'])->name('join.player');
+   
+    Route::get('buy-team', [FrontEndTeamController::class, 'index'])->name('buy.team');
+    Route::post('teamStore', [FrontEndTeamController::class, 'teamStore'])->name('store.team');
+
 });
+
+
+
+

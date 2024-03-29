@@ -95,8 +95,10 @@ class HomeController extends Controller
 
     public function teamList(Request $request)
     {
-        $teams = Team::active()->get();
-        return view('frontend.team_list', compact('teams'));
+        $user_id = Auth::user()->id;
+        $team = Team::where('user_id', $user_id)->active()->first();
+        $team_members = TeamMember::where('team_id', $team->id)->get();
+        return view('frontend.team_list', compact('team', 'team_members'));
     }
 
     public function teamDetails($id)

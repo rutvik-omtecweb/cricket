@@ -15,6 +15,7 @@ class Team extends Model
         'description',
         'image',
         'is_active',
+        'user_id',
     ];
 
     protected $casts = [
@@ -43,5 +44,10 @@ class Team extends Model
     public function team_member()
     {
         return $this->hasMany(TeamMember::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'member_id', 'id');
     }
 }

@@ -17,4 +17,16 @@ class Player extends Model
         'transaction_id',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function teamMember()
+    {
+        return $this->belongsToMany(TeamMember::class);
+    }
+
+   
 }
