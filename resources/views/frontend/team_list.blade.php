@@ -48,10 +48,11 @@
 @section('content')
     <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
         <div class="page-title">
-             <h2>TEAM LIST</h2>
+             <h2>TEAM DETAILS</h2>
         </div>
     </section>
     <main>
+
         <section class="team">
             <div class="container main-team-listing">
                 <div class="row align-items-center team-list">
@@ -62,36 +63,54 @@
             </div>
         </section>
 
+
         <section class="team-details">
             <div class="container">
+                @if(@$team) 
                 <div class="row">
                     <div class="col-12 text-center">
                         <h2 class="mainhead mt-5">{{@$team->team_name}} <span>{{@$team->team_name}}</span></h2>
                     </div>
                 </div>
-                <div class="row team-info">
-                    <div class="col-md-4 col-12">
-                        <div class="team-logo">
-                            <img src="{{@$team->image}}">
+              
+                    <div class="row team-info">
+                        <div class="col-md-4 col-12">
+                            <div class="team-logo">
+                                <img src="{{@$team->image}}">
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <div class="team-details">
+                                <h3>{{@$team->team_name}}</h3>
+                                <p>{!! @$team->description !!}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-8 col-12">
-                        <div class="team-details">
-                            <h3>{{@$team->team_name}}</h3>
-                            <p>{!! @$team->description !!}</p>
+                
+                @else 
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h2 class="mainhead mt-5">Team<span>Team</span></h2>
+                                <div class="text-center mt-5">
+                                    <h4 style="font-weight: bolder;">Team Not Found !!</h4>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                
+                @endif
             </div>
+            @if(@$team) 
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">
                         <h2 class="mainhead mt-5">Team<span>Team</span></h2>
+                       
                     </div>
                 </div>
                 <div class="row">
-                    @if (count($team_members) > 0)
-                        @foreach ($team_members as $member)
+                    @if (count(@$team_members) > 0)
+                        @foreach (@$team_members as $member)
                             <div class="col-lg-3 col-12 col-sm-6 member-list-main">
                                 <div class="member-box">
                                     <div class="member-image">
@@ -113,6 +132,7 @@
                     @endif
                 </div>
             </div>
+            @endif
         </section>
 
     </main>

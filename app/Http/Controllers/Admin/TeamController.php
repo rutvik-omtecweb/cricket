@@ -157,7 +157,7 @@ class TeamController extends Controller
         $row_per_page = $request->get("length");
         $search_arr = $request->get('search');
         $searchValue = $search_arr['value'];
-        $records = Team::with('team_member.user')->withCount('team_member');
+        $records = Team::with('user')->with('team_member.user')->withCount('team_member');
         $totalRecords = $records->count();
 
         $totalRecordsWithFilter = $records->count();

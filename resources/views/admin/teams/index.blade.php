@@ -17,8 +17,8 @@
                                     </ol>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <a href="{{ route('admin.teams.create') }}" class="btn btn-primary">
-                                        <i class="fa fa-plus"></i>&nbsp;Add</a>
+                                    {{-- <a href="{{ route('admin.teams.create') }}" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i>&nbsp;Add</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Name</th>
-                                <th>Members</th>
+                                <th>Buyer Name</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -70,7 +70,14 @@
                         data: 'team_name',
                     },
                     {
-                        data: 'team_member_count',
+                        data: 'buyer_name',
+                        render: function(data, type, row) {
+                            if (row.user) {
+                                return row.user.first_name + ' ' + row.user.last_name;
+                            } else {
+                                return " ";
+                            }
+                        }
                     },
                     // {
                     //     data: 'description',
