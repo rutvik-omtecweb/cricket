@@ -120,8 +120,7 @@ Route::get('/search/{keyword}', [HomeController::class, 'search'])->name('search
 //event-;ist routes
 Route::get('event-list', [HomeController::class, 'eventList'])->name('event.list');
 Route::get('event-detail/{id}', [HomeController::class, 'eventDetail'])->name('event.detail');
-Route::get('become-player', [HomeController::class, 'becomePlayer'])->name('become.player');
-Route::get('player-list', [HomeController::class, 'PlayerList'])->name('player.list');
+Route::get('player-list', [HomeController::class, 'becomePlayer'])->name('become.player');
 
 
 Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-history'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -202,7 +201,7 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
     //new-join-member that approve route
     Route::resource('new-join-member', NewJoinMemberController::class);
     Route::get('get-new-member', [NewJoinMemberController::class, 'getNewMember'])->name('get.new.member');
-    Route::get('toggle-new-member/{id}', [NewJoinMemberController::class, 'toggleNewMember'])->name('toggle.new.member');
+    Route::post('toggle-new-member/{id}', [NewJoinMemberController::class, 'toggleNewMember'])->name('toggle.new.member');
 
     //events route
     Route::resource('events', EventController::class);
@@ -227,6 +226,9 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
     Route::resource('admin-user', AdminUserController::class);
     Route::get('get-adminuser', [AdminUserController::class, 'getAdminUser'])->name('get.admin.user');
     Route::get('toggle-adminuser/{id}', [AdminUserController::class, 'toggleAdminUser']);
+
+    //reject-member-route
+    Route::post('toggle-reject-member/{id}', [NewJoinMemberController::class, 'toggleRejectMember']);
 });
 
 Route::get('/load-more-images', [HomeController::class, 'loadMoreImages'])->name('loadMoreImages');

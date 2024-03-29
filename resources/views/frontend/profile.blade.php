@@ -31,7 +31,8 @@
 @endsection
 @section('content')
 
-    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+    <section class="breadcrumbs"
+        style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
         <div class="page-title">
             <h2>PROFILE<br> </h2>
         </div>
@@ -53,9 +54,9 @@
                                     <li>
                                         <a href="#tab_default_3" data-toggle="tab"> Payment Detail</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="#tab_default_4" data-toggle="tab">Event Payment Detail</a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                                 <div class="tab-content accordion">
                                     <div class="tab-pane accordion__panel active" id="tab_default_1">
@@ -226,7 +227,7 @@
                                             </div>
                                         </div>
                                     </div> --}}
-                                    <div class="tab-pane accordion__panel" id="tab_default_5">
+                                    {{-- <div class="tab-pane accordion__panel" id="tab_default_5">
                                         <form action="{{ route('profile-update') }}" name="user_form" method="post"
                                             id="user_form" enctype="multipart/form-data">
                                             @csrf
@@ -351,7 +352,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     {{-- <div class="tab-pane accordion__panel" id="tab_default_6">
                                         <p> Account logout. </p>
                                     </div> --}}

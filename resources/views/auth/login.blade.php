@@ -34,11 +34,7 @@
                                         placeholder="Enter Username or E-mail">
                                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                                     </div>
-                                    @error('login')
-                                        <span class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="login-label form-label">Password</label>
@@ -50,6 +46,11 @@
                                         </span>
                                     @enderror
                                 </div>
+                                @error('login')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <div class="d-grid gap-2 pt-4">
                                     <input type="submit" class="btn btn-primary d-block default-btn" value="Log In">
                                 </div>

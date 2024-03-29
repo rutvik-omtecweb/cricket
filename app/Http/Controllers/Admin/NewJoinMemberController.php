@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Mail\SendMail;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\EmailTemplate;
 use App\Models\GeneralSetting;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class NewJoinMemberController extends Controller
 {
@@ -111,12 +114,92 @@ class NewJoinMemberController extends Controller
     /**
      * approve and reject member.
      */
-    public function toggleNewMember(string $id)
+    public function toggleNewMember(Request $request, string $id)
     {
+        $data = $request->all();
         $member = User::findOrFail($id);
+        if ($member->is_reject == 1) {
+            return response()->json(['success' => false, 'message' => 'Member is rejected. You must first cancel the rejection before approving.']);
+        }
+
         $member->update([
             'is_approve' => !$member->is_approve,
         ]);
-        return response()->json(['success' => true, 'message' => 'Member status updated successfully.']);
+
+        if ($data['message'] == 'approve') {
+            $setting = GeneralSetting::first();
+            if ($member) {
+                if ($setting) {
+                    $email_template = EmailTemplate::where('title', 'Approve of Membership')->first();
+                    if (!empty($email_template)) {
+                        $subject = $email_template['subject'];
+                        $user_name = $member->first_name . ' ' . $member->last_name;
+                        $login = route('login');
+                        $mail_data = str_replace('[User]', $user_name, $email_template['content']);
+                        $mail_data = str_replace('[Website Name]', $setting->site_name, $mail_data);
+                        $mail_data = str_replace('[Login URL]', $login, $mail_data);
+                        $mail_data = str_replace('[Company]', $setting->email, $mail_data);
+
+                        $email = new SendMail($mail_data);
+                        // Set the subject for the email
+                        $email->subject($subject);
+
+                        // Send the email
+                        Mail::to($member->email)->send($email);
+                    }
+                }
+            }
+        }
+
+        if ($data['message'] == 'approve') {
+            $message = 'Member Approve successfully';
+        } else {
+            $message = 'Member Approve cancelled successfully';
+        }
+        return response()->json(['success' => true, 'message' => $message]);
+    }
+
+    public function toggleRejectMember(Request $request, $id)
+    {
+
+        $data = $request->all();
+        $member = User::findOrFail($id);
+        $member->update([
+            'is_reject' => !$member->is_reject,
+            'rejection_reason' => @$data['reject_reason']
+        ]);
+
+        if ($data['email'] == 1) {
+            $setting = GeneralSetting::first();
+            if ($member) {
+                if ($setting) {
+                    $email_template = EmailTemplate::where('title', 'Rejection of Membership')->first();
+                    if (!empty($email_template)) {
+                        $subject = $email_template['subject'];
+                        $user_name = $member->first_name . ' ' . $member->last_name;
+
+                        $mail_data = str_replace('[User]', $user_name, $email_template['content']);
+                        $mail_data = str_replace('[Website Name]', $setting->site_name, $mail_data);
+                        $mail_data = str_replace('[reason]', $data['reject_reason'], $mail_data);
+                        $mail_data = str_replace('[Company]', $setting->email, $mail_data);
+
+                        $email = new SendMail($mail_data);
+                        // Set the subject for the email
+                        $email->subject($subject);
+
+                        // Send the email
+                        Mail::to($member->email)->send($email);
+                    }
+                }
+            }
+        }
+
+        if ($data['email'] == 1) {
+            $message = 'Member Rejected successfully';
+        } else {
+            $message = 'Member Rejection cancelled successfully';
+        }
+
+        return response()->json(['success' => true, 'message' => $message]);
     }
 }

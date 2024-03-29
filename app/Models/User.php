@@ -45,7 +45,9 @@ class User extends Authenticatable
         'terms_and_conditions',
         'living_rmwb_for_3_month',
         'not_member_of_cricket',
-        'image'
+        'image',
+        'is_reject',
+        'rejection_reason'
     ];
 
     /**

@@ -50,14 +50,14 @@
                         <p>{{ $endDate->format('d M') }} <br><span class="box-span">{{ $endDate->format('Y') }}</span></p>
                     </div>
                 </div>
-                @auth
+                {{-- @auth
                     <div class="col-md-4">
                         <div class="addition-information">
                             <h3>Total Numbers Of Team</h3>
                             <p>{{ @$event->number_of_team }} <br><span class="box-span">Team</span></p>
                         </div>
                     </div>
-                @endauth
+                @endauth --}}
             </div>
             <div class="row">
                 <div class="col-md-6">

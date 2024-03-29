@@ -5,7 +5,8 @@
 @endsection
 @section('content')
 
-    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+    <section class="breadcrumbs"
+        style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
         <div class="page-title">
             <h2>Member List</h2>
         </div>
@@ -13,9 +14,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12 text-left btn-div">
-                <a href="{{route('register')}}" class="btn btn-primary default-btn extra-btn">Become a Member</a>
-            </div>
+            @if (empty($is_member) && $is_member == null)
+                <div class="col-12 text-left btn-div">
+                    <a href="{{ route('register') }}" class="btn btn-primary default-btn extra-btn">Become a Member</a>
+                </div>
+            @endif
             @if (count($members) > 0)
                 @foreach ($members as $member)
                     <div class="col-lg-3 col-12 col-sm-6 member-list-main">

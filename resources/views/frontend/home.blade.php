@@ -108,6 +108,14 @@
                 width: 100%;
             }
         }
+
+        .modal-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white
+        }
     </style>
 @endsection
 @section('content')
@@ -247,7 +255,8 @@
                                         <div class="col-md-3 p-2">
                                             <div class="card rounded-4">
                                                 <div class="card-img ">
-                                                    <img src="{{ $p_tournament->image }}" class="img-fluid rounded-4 myImg">
+                                                    <img src="{{ $p_tournament->image }}"
+                                                        class="img-fluid rounded-4 myImg">
                                                 </div>
                                                 <div class="card-img-overlay mytitle">{{ $p_tournament->title }}</div>
                                             </div>
@@ -276,7 +285,7 @@
                     </button>
                 </div>
                 <img class="modal-content" id="img01">
-                <p id="title"></p>
+                <p id="title" class="modal-title"></p>
             </div>
         </section>
 
@@ -302,9 +311,9 @@
 @endsection
 @section('scripts')
     <script>
-        // Get the modal
+        // JavaScript
         var images = document.getElementsByClassName('myImg');
-        var title = document.getElementsByClassName('mytitle');
+        var titles = document.getElementsByClassName('mytitle');
         var modal = document.getElementById('myModal');
         var modalImg = document.getElementById("img01");
         var modalTitle = document.getElementById("title");
@@ -314,19 +323,16 @@
             images[i].onclick = function() {
                 modal.style.display = "block";
                 modalImg.src = this.src;
-                modalImg.alt = this.alt;
-                modalTitle.src = this.text;
-                captionText.innerHTML = this.alt;
+                var index = Array.prototype.indexOf.call(images, this); // Get index of clicked image
+                modalTitle.textContent = titles[index].textContent; // Set title text
             }
         }
 
-        // When the user clicks on <span> (x), close the modal
-        modal.onclick = function() {
-            img01.className += " out";
-            setTimeout(function() {
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
                 modal.style.display = "none";
-                img01.className = "modal-content";
-            }, 400);
+            }
         }
     </script>
 @endsection
