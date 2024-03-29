@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\EventPayment;
 use Illuminate\Http\Request;
 use App\Models\PaymentCollect;
+use App\Models\TeamPayment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -20,9 +21,10 @@ class UserController extends Controller
         $userId = Auth::user()->id;
         $user = User::findOrFail($userId);
         $user_payment = PaymentCollect::where('user_id', $userId)->first();
+        $team_payment = TeamPayment::with('team')->where('user_id', $userId)->first();
         $event_payments = EventPayment::with('event')->where('user_id', $userId)->where('status', 'success')->get();
         $player_payment = Player::where('user_id', $userId)->where('status', 'success')->first();
-        return view('frontend.profile', compact('user', 'user_payment', 'event_payments', 'player_payment'));
+        return view('frontend.profile', compact('user', 'user_payment', 'event_payments', 'player_payment', 'team_payment'));
     }
 
     public function profileUpdate(Request $request)

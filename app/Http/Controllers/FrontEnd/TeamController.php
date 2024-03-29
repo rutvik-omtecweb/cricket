@@ -45,7 +45,8 @@ class TeamController extends Controller
         $data['image'] = $image_name;
         $data['user_id'] = $user->id;
         $team = Team::create($data);
- 
+
+
         if (isset($request->member_id)) {
             foreach ($request->member_id as $key => $member) {
                 TeamMember::create([
@@ -57,12 +58,10 @@ class TeamController extends Controller
 
         $stripe_secret = env('STRIPE_SECRET');
 
-        
-
         //stripe payment
         $amount = $payment->amount;
 
-        $payment = TeamPayment::create([
+        $t_payment = TeamPayment::create([
             'user_id' => $user->id,
             'team_id' => $team->id,
             'payment_type' => "stripe",
@@ -70,9 +69,10 @@ class TeamController extends Controller
             'status' => 'pending'
         ]);
 
+
         $stripe = new \Stripe\StripeClient($stripe_secret);
-        $redirectUrl = route('stripe.checkout.success', ['id' => $payment->id]) . '?session_id={CHECKOUT_SESSION_ID}';
-        $cancel_url = route('stripe.checkout.cancel', ['id' => $payment->id]);
+        $redirectUrl = route('stripe.checkout.success.team', ['id' => $t_payment->id]) . '?session_id={CHECKOUT_SESSION_ID}';
+        $cancel_url = route('stripe.checkout.cancel.team', ['id' => $t_payment->id]);
         $user_name = $user->first_name . ' ' . $user->last_name;
         $current_currency =
             $response =  $stripe->checkout->sessions->create([
@@ -95,6 +95,7 @@ class TeamController extends Controller
                 'mode' => 'payment',
             ]);
 
+        return ($response);
         if ($response['url']) {
             return response()->json(['url' => $response->url, 'status' => true]);
         } else {
@@ -102,5 +103,36 @@ class TeamController extends Controller
         }
 
         // return redirect()->route('buy.team')->with('message', 'Team has been successfully created.');
+    }
+
+    public function teamStripeCheckoutSuccess(Request $request, $id)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+        info($session);
+
+        if ($session['status'] == 'complete') {
+
+            $payment = TeamPayment::findOrFail($id);
+            $payment->status = "success";
+            $payment->transaction_id = $request->session_id;
+            $payment->save();
+
+            return redirect('/')->with('message', 'Payment successful. Team has been successfully created.');
+        } else {
+            $payment = TeamPayment::findOrFail($id);
+            $payment->status = "cancel";
+            $payment->save();
+            return redirect('/')->with('message', 'Payment has been Cancel');
+        }
+    }
+
+    public function teamStripeCheckoutCancel(Request $request, $id)
+    {
+        $payment = TeamPayment::findOrFail($id);
+        $payment->status = "cancel";
+        $payment->save();
+
+        return redirect()->back();
     }
 }

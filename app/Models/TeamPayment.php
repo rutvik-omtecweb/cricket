@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class TeamPayment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
     protected $fillable = [
         'user_id',
         'team_id',
@@ -16,7 +16,17 @@ class TeamPayment extends Model
         'amount',
         'transaction_id',
         'status',
-        'expired_date',
     ];
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     
 }

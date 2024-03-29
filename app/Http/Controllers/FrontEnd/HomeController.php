@@ -95,16 +95,16 @@ class HomeController extends Controller
 
     public function teamList(Request $request)
     {
-        $team = null;
-        $team_members = [];
-        
         if (auth()->check()) {
             $user_id = Auth::user()->id;
-            $team = Team::where('user_id', @$user_id)->active()->first();
-            $team_members = TeamMember::where('team_id', @$team->id)->get();
+            $check_team = Team::where('user_id', $user_id)->first();
+        } else {
+            $check_team = null;
         }
-       
-        return view('frontend.team_list', compact('team', 'team_members'));
+
+        // dd($check_team);
+        $teams = Team::active()->orderBy('id', 'DESC')->get();
+        return view('frontend.team_list', compact('teams', 'check_team'));
     }
 
     public function teamDetails($id)

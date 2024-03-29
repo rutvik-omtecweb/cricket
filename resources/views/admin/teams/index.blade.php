@@ -31,7 +31,8 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Name</th>
-                                <th>Buyer Name</th>
+                                <th>Captain Name</th>
+                                <th>Members</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -78,6 +79,9 @@
                                 return " ";
                             }
                         }
+                    },
+                    {
+                        data: 'team_member_count',
                     },
                     // {
                     //     data: 'description',

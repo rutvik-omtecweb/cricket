@@ -81,7 +81,6 @@
                                                 <tbody>
                                                     @if (isset($user_payment))
                                                         <tr>
-                                                            {{-- <td data-th="number">1</td> --}}
                                                             <td data-th="date">
                                                                 {{ \Carbon\Carbon::parse($user_payment->created_at)->format('d-M-Y, g:i A') }}
                                                             </td>
@@ -110,6 +109,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
                                         @if (!empty($player_payment))
                                             <div class="register-payment mt-4">
                                                 <h4 style="background-color: beige;">Player Payment Detail</h4>
@@ -142,6 +142,50 @@
                                                             text-transform: uppercase;
                                                         ">
                                                                     {{ $player_payment->payment_type }}</td>
+
+                                                            </tr>
+                                                        @else
+                                                            <tr>
+                                                                <td colspan="4">Payment Detail Not Found !!</td>
+                                                            </tr>
+                                                        @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @endif
+                                        @if (!empty($team_payment))
+                                            <div class="register-payment mt-4">
+                                                <h4 style="background-color: beige;">Team Payment Detail</h4>
+                                                <table id="cart" class="table table-hover table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            {{-- <th style="width:15%">Team Name</th> --}}
+                                                            <th style="width:15%">Date</th>
+                                                            <th style="width:15%">Status</th>
+                                                            <th style="width:10%">Price</th>
+                                                            <th style="width:10%">Payment Type</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (isset($team_payment))
+                                                            <tr>
+                                                                {{-- <td data-th="number">{{ $team_payment->team }}</td> --}}
+                                                                <td data-th="date">
+                                                                    {{ \Carbon\Carbon::parse($team_payment->created_at)->format('d-M-Y, g:i A') }}
+                                                                </td>
+                                                                <td data-th="status" class="status">
+                                                                    <span
+                                                                        @if ($team_payment->status == 'success') class="approved" @elseif ($team_payment->status == 'pending') class="on-hold" @else class="pending" @endif>
+                                                                        {{ $team_payment->status }}</span>
+                                                                </td>
+                                                                <td data-th="Price" class="">
+                                                                    ${{ $team_payment->amount }}
+                                                                </td>
+                                                                <td data-th="Price" class=""
+                                                                    style="
+                                                        text-transform: uppercase;
+                                                    ">
+                                                                    {{ $team_payment->payment_type }}</td>
 
                                                             </tr>
                                                         @else

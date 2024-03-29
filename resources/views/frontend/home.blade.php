@@ -114,8 +114,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white
+            color: white;
+            font-size: 24px;
         }
+
+        
+        div#myModal img{
+            max-height:499px;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -311,6 +318,10 @@
 @endsection
 @section('scripts')
     <script>
+        $('#close').click(function() {
+            modal.style.display = "none";
+        });
+     
         // JavaScript
         var images = document.getElementsByClassName('myImg');
         var titles = document.getElementsByClassName('mytitle');

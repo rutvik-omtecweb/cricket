@@ -108,6 +108,10 @@ Route::get('stripe/checkout/cancel/{id}', [RegisterController::class, 'stripeChe
 Route::get('stripe/checkout/success/player/{id}', [PlayerController::class, 'playerStripeCheckoutSuccess'])->name('stripe.checkout.success.player');
 Route::get('stripe/checkout/cancel/player/{id}', [PlayerController::class, 'playerStripeCheckoutCancel'])->name('stripe.checkout.cancel.player');
 
+//stripe for team register routes
+Route::get('stripe/checkout/success/team/{id}', [FrontEndTeamController::class, 'teamStripeCheckoutSuccess'])->name('stripe.checkout.success.team');
+Route::get('stripe/checkout/cancel/team/{id}', [FrontEndTeamController::class, 'teamStripeCheckoutCancel'])->name('stripe.checkout.cancel.team');
+
 //event-payment-stripe routes
 Route::get('event-purchase-team-stripe/success/{id}', [EventPaymentController::class, 'stripePurchaseTeamSuccess'])->name('stripe.event.purchase.team.success');
 Route::get('event-purchase-team-stripe/cancel/{id}', [EventPaymentController::class, 'stripeEventPaymentCancel'])->name('stripe.event.payment.cancel');
