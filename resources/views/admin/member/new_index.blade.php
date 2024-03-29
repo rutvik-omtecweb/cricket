@@ -48,6 +48,7 @@
                                 <th>Phone</th>
                                 <th>Paid Amount</th>
                                 <th>Expired Date</th>
+                                <th>Reject</th>
                                 <th>Approve</th>
                             </tr>
                         </thead>
@@ -156,6 +157,21 @@
                         }
                     },
                     {
+                        data: 'reject',
+                        render: function(data, type, row) {
+                            var id = row.id;
+                            var is_reject = row.is_reject;
+                            var classname = is_reject === 1 ? 'checked' : '';
+                            var title = is_reject === '1' ? 'Active' : 'In-Active';
+                            return "<label class='switch' onclick='toggleRejectMember(\"" +
+                                row
+                                .id +
+                                "\", " + is_reject + ")'><input type='checkbox' " +
+                                classname +
+                                " ><span class='slider round'></span></label>";
+                        }
+                    },
+                    {
                         data: 'approve',
                         render: function(data, type, row) {
                             var id = row.id;
@@ -174,6 +190,7 @@
 
         function toggleNewMember(id, status) {
             var message = status ? 'reject' : 'approve';
+            var action = status ? 'cancel approve' : 'approve';
             Swal.fire({
                 title: 'Are you sure you want to ' + message + ' this member?',
                 icon: 'warning',
@@ -191,11 +208,19 @@
                     var userURL = BASE_URL + "/admin/toggle-new-member/" + id;
                     $.ajax({
                         url: userURL,
-                        type: "GET",
+                        type: "POST",
+                        data: {
+                            message: message
+                        },
                         dataType: "json",
                         success: function(response) {
-                            toastr.success(response.message)
-                            memberTable.draw();
+                            if (response.success) {
+                                toastr.success(response.message)
+                                memberTable.draw();
+                            } else {
+                                toastr.error(response.message)
+                                memberTable.draw()
+                            }
                         }
                     });
                 } else {
@@ -203,6 +228,63 @@
                 }
             })
         }
+
+        function toggleRejectMember(id, status) {
+            var email = status ? '0' : '1';
+            var action = status ? 'cancel rejection' : 'rejecting';
+            var inputHtml = ''; // Initialize empty input HTML
+
+            // Check if email is not '0', then include the input field
+            if (email !== '0') {
+                inputHtml =
+                    '<textarea id="reject_reason" class="swal2-textarea" placeholder="Enter rejection reason here..." required></textarea>'
+            }
+
+            Swal.fire({
+                title: 'Are you sure you want to ' + action + ' this member?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm',
+                html: inputHtml // Include the input HTML conditionally
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Check if input textbox is displayed
+                    if ($('#reject_reason').is(':visible')) {
+                        var rejectReason = $('#reject_reason').val();
+                        if (!rejectReason) {
+                            toastr.error("Please enter a rejection reason.");
+                            // Do not close the Swal dialog here
+                            return; // Stop execution if rejection reason is required but empty
+                        }
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var userURL = BASE_URL + "/admin/toggle-reject-member/" + id;
+                    $.ajax({
+                        url: userURL,
+                        type: "POST",
+                        data: {
+                            reject_reason: rejectReason,
+                            email: email
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            toastr.success(response.message);
+                            memberTable.draw();
+                        }
+                    });
+                } else {
+                    memberTable.draw();
+                }
+            });
+        }
+
 
         $('#import_form').validate({
             rules: {

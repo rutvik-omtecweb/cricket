@@ -24,7 +24,8 @@ class EventSeeder extends Seeder
             'participant_price' => "15",
             'limit_number_of_team' => "15",
             'email_notifications' => true,
-            'is_active' => true
+            'is_active' => true,
+            'location' => "location"
         ]);
 
         Event::create([
@@ -38,7 +39,8 @@ class EventSeeder extends Seeder
             'participant_price' => "15",
             'limit_number_of_team' => "15",
             'email_notifications' => true,
-            'is_active' => true
+            'is_active' => true,
+            'location' => "location"
         ]);
     }
 }

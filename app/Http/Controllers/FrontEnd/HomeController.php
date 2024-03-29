@@ -109,7 +109,15 @@ class HomeController extends Controller
     public function memberList(Request $request)
     {
         $members = User::role('member')->with('roles')->active()->verify()->approve()->get();
-        return view('frontend.member_list', compact('members'));
+
+        //here check if member is already exist
+        if (auth()->check()) {
+            $is_member =  User::role('member')->with('roles')->active()->verify()->approve()->where('id', auth()->user()->id)->first();
+        } else {
+            $is_member = null;
+        }
+
+        return view('frontend.member_list', compact('members', 'is_member'));
     }
 
     public function search($keyword)
@@ -288,12 +296,8 @@ class HomeController extends Controller
             $user_id = null;
         }
         $player_payment = Payment::where('title', 'Player Fees')->first();
-        return view('frontend.player', compact('player_payment', 'user_id'));
-    }
-
-    public function PlayerList()
-    {
-        $player = Player::where('status', 'success')->get();
-        return view('frontend.players', compact('player'));
+        $players = Player::with('user')->where('status', 'success')->get();
+        $existing_player = Player::where('user_id', $user_id)->where('status', 'success')->first();
+        return view('frontend.player', compact('player_payment', 'user_id', 'players', "existing_player"));
     }
 }

@@ -43,7 +43,7 @@ class EventController extends Controller
             'description' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'number_of_team' => 'required',
+            // 'number_of_team' => 'required',
         ]);
 
         if ($request->hasFile('image')) {
@@ -55,7 +55,7 @@ class EventController extends Controller
         $email_notifications = $request->has('email_notifications') ? 1 : 0;
         $data['email_notifications'] = $email_notifications;
         $data['image'] = $image_name;
-        $data['limit_number_of_team'] = $data['number_of_team'];
+        // $data['limit_number_of_team'] = $data['number_of_team'];
 
         $event = Event::create($data);
         if ($email_notifications == 1 && $event) {
@@ -121,7 +121,7 @@ class EventController extends Controller
             'description' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'number_of_team' => 'required',
+            // 'number_of_team' => 'required',
         ]);
 
         $event = Event::findOrFail($id);
@@ -144,7 +144,7 @@ class EventController extends Controller
         $data['image'] = $image_name;
         $email_notifications = $request->has('email_notifications') ? 1 : 0;
         $data['email_notifications'] = $email_notifications;
-        $data['limit_number_of_team'] = $data['number_of_team'];
+        // $data['limit_number_of_team'] = $data['number_of_team'];
         $event->update($data);
 
         if ($email_notifications == 1 && $event->wasChanged('email_notifications')) {

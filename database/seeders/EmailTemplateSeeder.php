@@ -24,5 +24,17 @@ class EmailTemplateSeeder extends Seeder
             'subject' => 'Invitation Of Event',
             'content' => '<div>Dear [name],</div><div><br></div><div>We are excited to invite you to our upcoming event, [Event Title], scheduled to take place on [Event Date]. Below are the details:</div><div><br></div><div>Start Date : [Event Start Date]</div><div>End Date : [Event End Date]</div><div>Number Of Team: [Number Of Team]</div><div>Team Price: [Team Price]</div><div>Participant Price: [Participant Price]</div><div><br></div><div>We are looking forward to your participation and making this event a great success.</div><div><br></div><div>If you have any questions or need further information, feel free to contact us at [Contact Information].</div><div><br></div><div>Best regards,</div><div>[Company]</div>',
         ]);
+
+        EmailTemplate::create([
+            'title' => 'Rejection of Membership',
+            'subject' => ' Rejection of Membership Application',
+            'content' => '<p>Dear [User],</p><p><span style="font-size: 1rem;">Thank you for your interest in becoming a member of [Website Name].</span><span style="font-size: 1rem;">We appreciate the time and effort you put into your application.</span></p><p><span style="font-size: 1rem;">Unfortunately, after thorough review, we regret to inform you that we are unable to accept your membership&nbsp;</span><span style="font-size: 1rem;">application at this time. The reason for this decision is <b>[reason].</b></span></p><p><span style="font-size: 1rem;">We understand that this news may be disappointing,</span><span style="font-size: 1rem;">&nbsp;and we want to express our gratitude for your interest in joining our platform.</span></p><p><span style="font-size: 1rem;">Thank you once again for considering. We wish you the best in your future endeavors.</span><br></p><p><span style="font-size: 1rem;">Sincerely,</span><br></p><p>[Company]</p>'
+        ]);
+
+        EmailTemplate::create([
+            'title' => 'Approve of Membership',
+            'subject' => 'Your Membership Request has been Approved!',
+            'content' => '<p>Dear [user],</p><p><span style="font-size: 1rem;">We are excited to inform you that your membership request with [website name] has&nbsp;</span><span style="font-size: 1rem;">been approved by our administrative team. Welcome to the community!</span></p><p><span style="font-size: 1rem;">Please log in using the following link to complete your profile and explore&nbsp;</span><span style="font-size: 1rem;">the various features and resources available to our members:</span></p><p><span style="font-size: 1rem;">[Login URL]</span></p><p><span style="font-size: 1rem;">Thank you for choosing to be a part of [organization name].We look forward to your active participation and&nbsp;</span><span style="font-size: 1rem;">contributions to our community!</span></p><p><span style="font-size: 1rem;">Sincerely,</span></p><p><span style="font-size: 1rem;">[Company]</span></p>',
+        ]);
     }
 }
