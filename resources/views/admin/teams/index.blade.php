@@ -32,6 +32,7 @@
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>Captain Name</th>
+                                <th>Captain Email</th>
                                 <th>Members</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -75,6 +76,16 @@
                         render: function(data, type, row) {
                             if (row.user) {
                                 return row.user.first_name + ' ' + row.user.last_name;
+                            } else {
+                                return " ";
+                            }
+                        }
+                    },
+                    {
+                        data: 'email',
+                        render: function(data, type, row) {
+                            if (row.user) {
+                                return row.user.email;
                             } else {
                                 return " ";
                             }
