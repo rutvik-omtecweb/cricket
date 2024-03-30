@@ -111,13 +111,14 @@ class HomeController extends Controller
 
         // dd($check_team);
         $teams = Team::active()->orderBy('id', 'DESC')->get();
-        return view('frontend.team_list', compact('teams', 'check_team', 'team_member'));
+        $payment = Payment::where('title', 'Team Registration Fees')->first();
+        return view('frontend.team_list', compact('teams', 'check_team', 'team_member', 'payment'));
     }
 
     public function teamDetails($id)
     {
         $team = Team::where('id', $id)->first();
-         $team_members = TeamMember::with('player.user')->where('team_id', $id)->get();
+        $team_members = TeamMember::with('player.user')->where('team_id', $id)->get();
         return view('frontend.team_detail', compact('team', 'team_members'));
     }
 

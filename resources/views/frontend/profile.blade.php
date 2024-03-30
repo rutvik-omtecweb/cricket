@@ -182,8 +182,9 @@
                                                                 <td data-th="Price" class="">
                                                                     ${{ $team_payment->amount }}
                                                                 </td>
-                                                                <td>{{ @$team_payment->team->team_member->count() ?? 0 }}
+                                                                <td>{{ @$team_payment->team && @$team_payment->team->team_member ? $team_payment->team->team_member->count() : 0 }}
                                                                 </td>
+
                                                                 <td data-th="Price" class=""
                                                                     style=" text-transform: uppercase; ">
                                                                     {{ $team_payment->payment_type }}</td>

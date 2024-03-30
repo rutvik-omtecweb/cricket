@@ -63,9 +63,12 @@
                             <a href="{{ route('buy.team') }}" class="btn btn-primary default-btn extra-btn">Buy a Team</a>
                         </div>
                     @endif --}}
+
+                    {{-- here dont display if here is member and player in team --}}
                     @if (empty($check_team) && empty($team_member))
                         <div class="col-12 text-left btn-div" style="margin-bottom:15px;">
-                            <a href="{{ route('buy.team') }}" class="btn btn-primary default-btn extra-btn">Buy a Team</a>
+                            <a href="{{ route('buy.team') }}" class="btn btn-primary default-btn extra-btn">Buy a Team -
+                                $ {{ @$payment->amount ?? 0 }}</a>
                         </div>
                     @endif
 

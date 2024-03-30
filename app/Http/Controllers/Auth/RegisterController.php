@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Newsletter\Facades\Newsletter;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -194,6 +195,7 @@ class RegisterController extends Controller
 
         $payment = Payment::where('title', 'Member Registration Fees')->first();
 
+
         if (empty($payment)) {
             return response()->json(['status' => false, "message" => "Failed to retrieve payment amount. Please try again later."]);
         }
@@ -223,48 +225,104 @@ class RegisterController extends Controller
 
         $user->assignRole('member');
 
-        $stripe_secret = env('STRIPE_SECRET');
+        if ($payment->amount == 0) {
+            $expired_date = Carbon::now()->addDays($payment->days);
 
-        //stripe payment
-        $amount = $payment->amount;
-
-        $payment = PaymentCollect::create([
-            'user_id' => $user->id,
-            'payment_type' => "stripe",
-            'amount' => $amount,
-            'status' => 'pending'
-        ]);
-
-        $stripe = new \Stripe\StripeClient($stripe_secret);
-        $redirectUrl = route('stripe.checkout.success', ['id' => $payment->id]) . '?session_id={CHECKOUT_SESSION_ID}';
-        $cancel_url = route('stripe.checkout.cancel', ['id' => $payment->id]);
-        $user_name = $user->first_name . ' ' . $user->last_name;
-        $current_currency =
-            $response =  $stripe->checkout->sessions->create([
-                'success_url' => $redirectUrl,
-                'cancel_url' => $cancel_url,
-                'payment_method_types' => ['card'],
-                'billing_address_collection' => 'required',
-                'line_items' => [
-                    [
-                        'price_data'  => [
-                            'product_data' => [
-                                'name' => $user_name,
-                            ],
-                            'unit_amount'  => 100 * $amount,
-                            'currency'     => 'usd',
-                        ],
-                        'quantity'    => 1
-                    ],
-                ],
-                'mode' => 'payment',
+            $payment = PaymentCollect::create([
+                'user_id' => $user->id,
+                'payment_type' => "free",
+                'amount' => $payment->amount,
+                'status' => 'success',
+                'expired_date' =>  $expired_date
             ]);
 
-        if ($response['url']) {
-            return response()->json(['url' => $response->url, 'status' => true]);
+            $token = Str::random(64);
+
+            UserVerify::create([
+                'user_id' => $user->id,
+                'token' => $token,
+                'expires_at' => now()->addHours(1),
+            ]);
+
+            $setting = GeneralSetting::first();
+            $user = User::findOrFail($user->id);
+            if ($user) {
+                if ($setting) {
+                    $email_template = EmailTemplate::where('title', 'Verify Member')->first();
+                    if (!empty($email_template)) {
+                        $subject = $email_template['subject'];
+                        $link = $request->root() . "/user/verify/" .  $token;
+                        $user_name = $user->first_name . ' ' . $user->last_name;
+
+                        $verification_link = $request->root() . '/' . $user->is_verify;
+                        $mail_data = str_replace('[name]', $user_name, $email_template['content']);
+                        $mail_data = str_replace('[company_name]', $setting->site_name, $mail_data);
+                        $mail_data = str_replace('[verification_link]', $link, $mail_data);
+                        $mail_data = str_replace('[company_contact_info]', $setting->phone, $mail_data);
+                        $mail_data = str_replace('[X]', '1', $mail_data);
+                        $mail_data = str_replace('[Your Company Name]', $setting->site_name, $mail_data);
+
+                        $email = new SendMail($mail_data);
+                        // Set the subject for the email
+                        $email->subject($subject);
+
+                        // Send the email
+                        Mail::to($user->email)->send($email);
+                    }
+                }
+            }
+            $redirect_url = route('home');
+            Session::flash('message', 'Payment successful. Please check your email to verify your account and await admin approval');
+            return response()->json([
+                'url' => $redirect_url,
+                'status' => true
+            ]);
         } else {
-            return response()->json(['status' => false, "message" => "Something went wrong!!"]);
+
+            $stripe_secret = env('STRIPE_SECRET');
+
+            //stripe payment
+            $amount = $payment->amount;
+
+            $payment = PaymentCollect::create([
+                'user_id' => $user->id,
+                'payment_type' => "stripe",
+                'amount' => $amount,
+                'status' => 'pending'
+            ]);
+
+            $stripe = new \Stripe\StripeClient($stripe_secret);
+            $redirectUrl = route('stripe.checkout.success', ['id' => $payment->id]) . '?session_id={CHECKOUT_SESSION_ID}';
+            $cancel_url = route('stripe.checkout.cancel', ['id' => $payment->id]);
+            $user_name = $user->first_name . ' ' . $user->last_name;
+            $current_currency =
+                $response =  $stripe->checkout->sessions->create([
+                    'success_url' => $redirectUrl,
+                    'cancel_url' => $cancel_url,
+                    'payment_method_types' => ['card'],
+                    'billing_address_collection' => 'required',
+                    'line_items' => [
+                        [
+                            'price_data'  => [
+                                'product_data' => [
+                                    'name' => $user_name,
+                                ],
+                                'unit_amount'  => 100 * $amount,
+                                'currency'     => 'usd',
+                            ],
+                            'quantity'    => 1
+                        ],
+                    ],
+                    'mode' => 'payment',
+                ]);
+
+            if ($response['url']) {
+                return response()->json(['url' => $response->url, 'status' => true]);
+            } else {
+                return response()->json(['status' => false, "message" => "Something went wrong!!"]);
+            }
         }
+
 
         // return redirect()
         //     ->route('login')

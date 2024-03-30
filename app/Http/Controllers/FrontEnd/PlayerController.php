@@ -4,8 +4,10 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Models\User;
 use App\Models\Player;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class PlayerController extends Controller
 {
@@ -15,7 +17,7 @@ class PlayerController extends Controller
         $user_id = $request->user_id;
         $amount = $request->amount;
 
-        if (!$user_id || !$amount) {
+        if (!$user_id) {
             return response()->json(['status' => false, 'message' => 'Something went wrong!!']);
         }
 
@@ -25,47 +27,64 @@ class PlayerController extends Controller
         }
 
         // Proceed with your logic
-
-        $stripe_secret = env('STRIPE_SECRET');
-        $player = Player::create([
-            'user_id' => $user_id,
-            'payment_type' => "stripe",
-            'amount' => $amount,
-            'status' => 'pending'
-        ]);
-
-        $user = User::findOrFail($user_id);
-
-        $stripe = new \Stripe\StripeClient($stripe_secret);
-        $redirectUrl = route('stripe.checkout.success.player', ['id' => $player->id]) . '?session_id={CHECKOUT_SESSION_ID}';
-        $cancel_url = route('stripe.checkout.cancel.player', ['id' => $player->id]);
-        $user_name = $user->first_name . ' ' . $user->last_name . ' (Become Player)';
-
-        $current_currency =
-            $response =  $stripe->checkout->sessions->create([
-                'success_url' => $redirectUrl,
-                'cancel_url' => $cancel_url,
-                'payment_method_types' => ['card'],
-                'billing_address_collection' => 'required',
-                'line_items' => [
-                    [
-                        'price_data'  => [
-                            'product_data' => [
-                                'name' => $user_name,
-                            ],
-                            'unit_amount'  => 100 * $amount,
-                            'currency'     => 'usd',
-                        ],
-                        'quantity'    => 1
-                    ],
-                ],
-                'mode' => 'payment',
+        $payment = Payment::where('title', 'Player Fees')->first();
+        if ($payment->amount == 0) {
+            $player = Player::create([
+                'user_id' => $user_id,
+                'payment_type' => "free",
+                'amount' => $amount,
+                'status' => 'success'
             ]);
 
-        if ($response['url']) {
-            return response()->json(['url' => $response->url, 'status' => true]);
+            $redirect_url = route('home');
+            Session::flash('message', 'Payment successful. You are now a player!');
+            return response()->json([
+                'url' => $redirect_url,
+                'status' => true
+            ]);
         } else {
-            return response()->json(['status' => false, "message" => "Something went wrong!!"]);
+
+            $stripe_secret = env('STRIPE_SECRET');
+            $player = Player::create([
+                'user_id' => $user_id,
+                'payment_type' => "stripe",
+                'amount' => $amount,
+                'status' => 'pending'
+            ]);
+
+            $user = User::findOrFail($user_id);
+
+            $stripe = new \Stripe\StripeClient($stripe_secret);
+            $redirectUrl = route('stripe.checkout.success.player', ['id' => $player->id]) . '?session_id={CHECKOUT_SESSION_ID}';
+            $cancel_url = route('stripe.checkout.cancel.player', ['id' => $player->id]);
+            $user_name = $user->first_name . ' ' . $user->last_name . ' (Become Player)';
+
+            $current_currency =
+                $response =  $stripe->checkout->sessions->create([
+                    'success_url' => $redirectUrl,
+                    'cancel_url' => $cancel_url,
+                    'payment_method_types' => ['card'],
+                    'billing_address_collection' => 'required',
+                    'line_items' => [
+                        [
+                            'price_data'  => [
+                                'product_data' => [
+                                    'name' => $user_name,
+                                ],
+                                'unit_amount'  => 100 * $amount,
+                                'currency'     => 'usd',
+                            ],
+                            'quantity'    => 1
+                        ],
+                    ],
+                    'mode' => 'payment',
+                ]);
+
+            if ($response['url']) {
+                return response()->json(['url' => $response->url, 'status' => true]);
+            } else {
+                return response()->json(['status' => false, "message" => "Something went wrong!!"]);
+            }
         }
     }
 
