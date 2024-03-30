@@ -163,6 +163,7 @@
                                                             <th style="width:15%">Date</th>
                                                             <th style="width:15%">Status</th>
                                                             <th style="width:10%">Price</th>
+                                                            <th style="width:10%">Players</th>
                                                             <th style="width:10%">Payment Type</th>
                                                         </tr>
                                                     </thead>
@@ -181,10 +182,10 @@
                                                                 <td data-th="Price" class="">
                                                                     ${{ $team_payment->amount }}
                                                                 </td>
+                                                                <td>{{ @$team_payment->team->team_member->count() ?? 0 }}
+                                                                </td>
                                                                 <td data-th="Price" class=""
-                                                                    style="
-                                                        text-transform: uppercase;
-                                                    ">
+                                                                    style=" text-transform: uppercase; ">
                                                                     {{ $team_payment->payment_type }}</td>
 
                                                             </tr>

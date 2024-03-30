@@ -43,7 +43,7 @@ class Team extends Model
 
     public function team_member()
     {
-        return $this->hasMany(TeamMember::class);
+        return $this->hasMany(TeamMember::class, 'team_id');
     }
 
     public function user()

@@ -80,23 +80,18 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                @php
-                                    // $selectedMembers = explode(',', @$teams->member_id);
-                                    // $selectedMembers = @$teams->team_member->pluck('id');
-                                    $selectedMembers = @$teams ? @$teams->team_member->pluck('id') : [];
-                                @endphp
                                 <label for="exampleInputFile">Members </label>
-                                <select name="member_id[]" id="member_id" class="form-control select2" multiple="multiple" data-placeholder="Select Members">
+                                <select name="member_id[]" id="member_id" class="form-control select2" multiple="multiple"
+                                    data-placeholder="Select Members">
 
                                     @foreach ($members as $key => $member)
                                         @php
-                                            $isSelected = optional(@$selected_member)->contains(
-                                                'member_id',
-                                                $member->id,
-                                            );
+                                            $isSelected = optional($selected_member)
+                                                ->pluck('member_id')
+                                                ->contains($member->id);
                                         @endphp
                                         <option value="{{ $member->id }}" {{ @$isSelected ? 'selected' : '' }}>
-                                            {{ $member->first_name }} {{ $member->last_name }}
+                                            {{ $member->user->first_name }} {{ $member->user->last_name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -127,7 +122,7 @@
                                 <span class="content_error" id="content_error"></span>
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>

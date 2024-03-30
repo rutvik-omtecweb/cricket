@@ -68,7 +68,6 @@
                         }
                     },
                     {
-                        width: "40%",
                         data: 'team_name',
                     },
                     {

@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             GeneralSettingSeeder::class,
             CmsPagesSeeder::class,
             HomeSeeder::class,
-            TeamSeeder::class,
+            // TeamSeeder::class,
             OuterNewsSeeder::class
         ]);
     }

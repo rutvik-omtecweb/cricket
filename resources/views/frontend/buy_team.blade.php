@@ -75,9 +75,11 @@
                             <h4>Player List</h4>
                             <div class="table-responsive">
                                 <table class="table table-sm">
+                                    <span id="content_error" class="error"></span>
                                     <thead>
                                         <tr>
                                             <th></th>
+                                            <th>#</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Phone Number</th>
                                             <th scope="col">Address</th>
@@ -85,15 +87,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $counter = 1;
+                                        @endphp
                                         @forelse(@$player as $players)
-                                        <tr>
-                                            <th><input class="form-check-input" name="member_id[]" type="checkbox" value="{{$players->user->id}}"
-                                                    id="flexCheckIndeterminate"></th>
-                                            <td>{{$players->user->first_name}} {{$players->user->last_name}}</td>
-                                            <td>{{$players->user->phone}}</td>
-                                            <td>{{$players->user->address}}</td>
-                                            <td>{{$players->user->gender}}</td>
-                                        </tr>
+                                            <tr>
+                                                <th><input class="form-check-input" name="member_id[]" type="checkbox"
+                                                        value="{{ $players->id }}" id="flexCheckIndeterminate"></th>
+                                                <th>{{ $counter }}</th>
+                                                <td>{{ $players->user->first_name }} {{ $players->user->last_name }}</td>
+                                                <td>{{ $players->user->phone }}</td>
+                                                <td>{{ $players->user->address ?? '-' }}</td>
+                                                <td>{{ $players->user->gender ?? '-' }}</td>
+                                            </tr>
+                                            @php
+                                                $counter++;
+                                            @endphp
                                         @empty
                                         @endforelse
                                     </tbody>
@@ -123,8 +132,27 @@
                 rules: {
                     team_name: 'required',
                     description: 'required',
+                    "member_id[]": {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 18
+                    }
                 },
-               
+                messages: {
+                    "member_id[]": {
+                        required: "Please select at least one player.",
+                        minlength: "Please select at least one player.",
+                        maxlength: "You can select maximum 18 players."
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("type") == "checkbox") {
+                        error.appendTo('#content_error');
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+
                 submitHandler: function(form) {
                     // form.submit();
                     event.preventDefault();

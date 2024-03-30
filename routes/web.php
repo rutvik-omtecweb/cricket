@@ -248,12 +248,7 @@ Route::group(['middleware' => ['auth', 'role:member', 'prevent-back-history']], 
     Route::post('join-participant', [EventPaymentController::class, 'joinParticipant'])->name('join.participant');
 
     Route::post('join-player', [PlayerController::class, 'joinPlayer'])->name('join.player');
-   
+
     Route::get('buy-team', [FrontEndTeamController::class, 'index'])->name('buy.team');
     Route::post('teamStore', [FrontEndTeamController::class, 'teamStore'])->name('store.team');
-
 });
-
-
-
-

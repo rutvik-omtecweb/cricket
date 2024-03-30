@@ -17,7 +17,8 @@ class TeamController extends Controller
     public function index()
     {
         $check_player = TeamMember::pluck('member_id');
-        $player = Player::whereNotIn('user_id', $check_player)->where('status', 'success')->get();
+        // $player = Player::whereNotIn('user_id', $check_player)->where('user_id', '!=', @Auth::user()->id)->where('status', 'success')->get();
+        $player = Player::whereNotIn('id', $check_player)->where('id', '!=', @Auth::user()->id)->where('status', 'success')->get();
         return view('frontend.buy_team', compact('player'));
     }
 
@@ -25,6 +26,7 @@ class TeamController extends Controller
     {
         $data = $request->all();
         $user =  Auth::user();
+        $data['user'] = Auth::user();
         $request->validate([
             'team_name' => 'required|unique:teams,team_name,id',
         ]);
@@ -42,20 +44,6 @@ class TeamController extends Controller
             $file->move(public_path($path), $image_name);
         }
 
-        $data['image'] = $image_name;
-        $data['user_id'] = $user->id;
-        $team = Team::create($data);
-
-
-        if (isset($request->member_id)) {
-            foreach ($request->member_id as $key => $member) {
-                TeamMember::create([
-                    'team_id' => $team->id,
-                    'member_id' => $member
-                ]);
-            }
-        }
-
         $stripe_secret = env('STRIPE_SECRET');
 
         //stripe payment
@@ -63,12 +51,16 @@ class TeamController extends Controller
 
         $t_payment = TeamPayment::create([
             'user_id' => $user->id,
-            'team_id' => $team->id,
+            // 'team_id' => $team->id,
             'payment_type' => "stripe",
             'amount' => $amount,
             'status' => 'pending'
         ]);
 
+        $request->session()->put('team_name', $request->input('team_name'));
+        $request->session()->put('member_id', $request->input('member_id'));
+        $request->session()->put('image', $image_name);
+        $request->session()->put('description', $request->input('description'));
 
         $stripe = new \Stripe\StripeClient($stripe_secret);
         $redirectUrl = route('stripe.checkout.success.team', ['id' => $t_payment->id]) . '?session_id={CHECKOUT_SESSION_ID}';
@@ -107,16 +99,44 @@ class TeamController extends Controller
 
     public function teamStripeCheckoutSuccess(Request $request, $id)
     {
+        // dd($request->all());
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $session = $stripe->checkout->sessions->retrieve($request->session_id);
         info($session);
 
+        $team_name = $request->session()->get('team_name');
+        $member_id = $request->session()->get('member_id');
+        $image = $request->session()->get('image');
+        $description = $request->session()->get('description');
+
+
         if ($session['status'] == 'complete') {
+
+            $data = $request->all();
 
             $payment = TeamPayment::findOrFail($id);
             $payment->status = "success";
             $payment->transaction_id = $request->session_id;
             $payment->save();
+
+            $team = Team::create([
+                'team_name' => @$team_name,
+                'description' => @$description,
+                'image' => @$image,
+                'user_id' => @$payment->user_id
+            ]);
+
+            $payment->team_id = $team->id;
+            $payment->save();
+
+            if (isset($member_id)) {
+                foreach ($member_id as $key => $member) {
+                    TeamMember::create([
+                        'team_id' => $team->id,
+                        'member_id' => $member
+                    ]);
+                }
+            }
 
             return redirect('/')->with('message', 'Payment successful. Team has been successfully created.');
         } else {
@@ -133,6 +153,6 @@ class TeamController extends Controller
         $payment->status = "cancel";
         $payment->save();
 
-        return redirect()->back();
+        return redirect('/')->with('message', 'Payment has been Cancel');
     }
 }

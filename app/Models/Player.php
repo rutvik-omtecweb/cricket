@@ -28,5 +28,5 @@ class Player extends Model
         return $this->belongsToMany(TeamMember::class);
     }
 
-   
+
 }

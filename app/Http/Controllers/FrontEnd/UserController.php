@@ -21,7 +21,7 @@ class UserController extends Controller
         $userId = Auth::user()->id;
         $user = User::findOrFail($userId);
         $user_payment = PaymentCollect::where('user_id', $userId)->first();
-        $team_payment = TeamPayment::with('team')->where('user_id', $userId)->first();
+        $team_payment = TeamPayment::with('team.team_member')->where('user_id', $userId)->where('status', 'success')->first();
         $event_payments = EventPayment::with('event')->where('user_id', $userId)->where('status', 'success')->get();
         $player_payment = Player::where('user_id', $userId)->where('status', 'success')->first();
         return view('frontend.profile', compact('user', 'user_payment', 'event_payments', 'player_payment', 'team_payment'));

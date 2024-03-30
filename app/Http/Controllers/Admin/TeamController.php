@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Player;
+use App\Models\TeamMember;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\TeamMember;
 use Illuminate\Support\Facades\File;
 
 class TeamController extends Controller
@@ -72,9 +73,10 @@ class TeamController extends Controller
      */
     public function edit(string $id)
     {
-        $teams = Team::with('team_member')->findOrFail($id);
-        $members = User::role('member')->with('roles')->active()->verify()->approve()->get();
-        $selected_member = TeamMember::where('team_id', $id)->get();
+        $teams = Team::with('team_member.player')->findOrFail($id);
+        // $members = User::role('member')->with('roles')->active()->verify()->approve()->get();
+        $members = Player::with('user')->where('status', 'success')->get();
+        $selected_member = TeamMember::with('player')->where('team_id', $id)->get();
         return view('admin.teams.upsert', compact('teams', 'members', 'selected_member'));
     }
 
@@ -157,7 +159,7 @@ class TeamController extends Controller
         $row_per_page = $request->get("length");
         $search_arr = $request->get('search');
         $searchValue = $search_arr['value'];
-        $records = Team::with('user')->with('team_member.user')->withCount('team_member');
+        $records = Team::with('user')->with('team_member.player.user')->withCount('team_member');
         $totalRecords = $records->count();
 
         $totalRecordsWithFilter = $records->count();
@@ -170,7 +172,6 @@ class TeamController extends Controller
                         $subQuery->select('team_id')->groupBy('team_id')->havingRaw('COUNT(*) = ?', [$searchValue]);
                     });
             });
-
         }
 
         $records = $records->latest()
