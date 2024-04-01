@@ -50,11 +50,23 @@ class ReportController extends Controller
         if (isset($request->date_range)) {
             $records = $records->whereBetween(DB::raw('date(created_at)'), [$from_date, $to_date]);
         }
-
         if ($searchValue) {
-            $records = $records->where('first_name', 'LIKE', '%' . $searchValue . '%')
-                ->orWhere('last_name', 'LIKE', '%' . $searchValue . '%')->orWhere('email', 'LIKE', '%' . $searchValue . '%')->orWhere('phone', 'LIKE', '%' . $searchValue . '%')
-                ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchValue . '%']);
+            $records = $records->where(function ($query) use ($searchValue) {
+                $query->where('first_name', 'LIKE', '%' . $searchValue . '%')->orWhere('last_name', 'LIKE', '%' . $searchValue . '%')->orWhere('email', 'LIKE', '%' . $searchValue . '%')->orWhere('phone', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $searchValue . '%'])->orWhere('created_at', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhereHas('payment_collect', function ($q) use ($searchValue) {
+                        $q->where('expired_date', 'LIKE', '%' . $searchValue . '%')->orWhere('amount', 'LIKE', '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('team_payment', function ($q) use ($searchValue) {
+                        $q->where('amount', 'LIKE', '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('player', function ($q) use ($searchValue) {
+                        $q->where('amount', 'LIKE', '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('event_payment', function ($q) use ($searchValue) {
+                        $q->where('amount', 'LIKE', '%' . $searchValue . '%');
+                    });
+            });
         }
 
         $records = $records

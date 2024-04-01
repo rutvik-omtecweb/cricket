@@ -265,3 +265,4 @@ Route::group(['middleware' => ['auth', 'role:member', 'prevent-back-history']], 
 //export route
 Route::get('team-export', [TeamController::class, 'export'])->name('team.export');
 Route::get('team-player', [AdminPlayerController::class, 'export'])->name('player.export');
+Route::get('member-player', [MemberController::class, 'export'])->name('member.export');

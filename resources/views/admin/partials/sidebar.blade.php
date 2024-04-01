@@ -125,6 +125,7 @@
 
                                                 @case('About US')
                                                 @case('Contact Us')
+                                                @case('Player')
 
                                                 @case('Admin User')
 

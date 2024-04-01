@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('style')
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
     <style>
         /* DataTable styling */
         #member_list_wrapper {
@@ -37,6 +39,16 @@
             /* Example: Change background color on hover */
             border-color: #0056b3;
             /* Example: Change border color on hover */
+        }
+
+        /* Custom CSS to change Excel button color to btn-primary */
+        .btn-primary {
+            background-color: #007bff;
+            /* Change background color to primary color */
+            border-color: #007bff;
+            /* Change border color to primary color */
+            color: #fff;
+            /* Change text color to white */
         }
     </style>
 @endsection
@@ -120,6 +132,18 @@
     </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.dataTables.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -167,7 +191,9 @@
                 dom: 'Bfrtip',
                 buttons: [{
                     extend: 'excel',
-                    title: ''
+                    title: '',
+                    className: 'btn-primary',
+                    filename: 'payment'
                 }, ],
                 ajax: {
                     data: function(data) {

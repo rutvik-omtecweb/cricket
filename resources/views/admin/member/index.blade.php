@@ -19,8 +19,8 @@
                                 <div class="col-md-6 text-right">
                                     <button type="button" onclick="showImport()" class="btn btn-primary"><i
                                             class="fa fa-upload"></i>&nbsp;Import</button>
-                                    {{-- <a href="{{ asset('storage/import/member.xlsx') }}" download class="btn btn-primary"><i
-                                            class="fa fa-download"></i>&nbsp;Sample File</a> --}}
+                                    <a class="btn btn-primary" href="{{ route('member.export') }}">Export Member
+                                        Data</a>
                                 </div>
                             </div>
                         </div>

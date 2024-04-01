@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Player;
+use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use App\Imports\MemberImport;
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
 {
@@ -175,5 +177,13 @@ class MemberController extends Controller
             Log::error($exception->getMessage());
             return response()->json(['success' => false, 'message' => $exception->getMessage()]);
         }
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function export()
+    {
+        return Excel::download(new UserExport, 'member.xlsx');
     }
 }
