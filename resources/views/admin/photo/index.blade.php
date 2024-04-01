@@ -63,8 +63,13 @@
                         width: "20%",
                         data: 'image',
                         render: function(data, type, row) {
-                            return "<img src='" + row
-                                .image + "' height='100' width='200'>";
+                            if (row.image) {
+                                return "<img src='" + row
+                                    .image + "' height='150' width='200'>";
+                            } else {
+                                return `<img src="{{ URL::asset('storage/admin/default/img1.jpg') }}" height="150" width="200">`;
+                            }
+
                         }
                     },
                     {

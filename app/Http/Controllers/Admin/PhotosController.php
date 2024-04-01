@@ -23,7 +23,7 @@ class PhotosController extends Controller
      */
     public function create()
     {
-        return view('admin.photo.upsert');
+        return view('admin.photo.create');
     }
 
     /**
@@ -33,7 +33,8 @@ class PhotosController extends Controller
     {
         $data = $request->all();
         $request->validate([
-            'title' => 'required|unique:tournaments,title,NULL,id,type,1',
+            // 'title' => 'required|unique:tournaments,title,NULL,id,type,1',
+            'title' => 'required',
 
             // 'title' => [
             //     'required',
@@ -41,20 +42,32 @@ class PhotosController extends Controller
             //         return $query->where('type', $request->type);
             //     })->ignore($request->id),
             // ],
-            'image' => 'required',
+            'image.*' => 'required|image|max:2048'
         ]);
 
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $path = 'storage/tournament';
+        //     $image_name = time() . $file->getClientOriginalName();
+        //     $file->move(public_path($path), $image_name);
+        // }
+        $images = [];
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = 'storage/tournament';
-            $image_name = time() . $file->getClientOriginalName();
-            $file->move(public_path($path), $image_name);
+            foreach ($request->file('image') as $file) {
+                $image_name = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('storage/tournament'), $image_name);
+                $images[] = $image_name; // Store image names in an array
+            }
         }
 
+        $data = $request->except('image'); // Exclude images from the data array
         $data['type'] = 1;
-        $data['image'] = $image_name;
+        foreach ($images as $image) {
+            $data['image'] = $image;
+            Tournament::create($data);
+        }
 
-        Tournament::create($data);
+        // Tournament::create($data);
         return redirect()->route('admin.photos.index')->with('message', 'Photo created successfully.');
     }
 
@@ -82,8 +95,8 @@ class PhotosController extends Controller
     {
         $data = $request->all();
         $request->validate([
-            // 'title' => 'required|unique:tournaments,title,' . $id . ',id',
-            'title' => 'required|unique:tournaments,title,' . $id . ',id,type,' . 1,
+            // 'title' => 'required|unique:tournaments,title,' . $id . ',id,type,' . 1,
+            'title' => 'required',
         ]);
 
         $tournament = Tournament::findOrFail($id);

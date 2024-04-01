@@ -55,10 +55,11 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="exampleInputFile">Image <span class="validation">*</span></label>
+                                <label for="exampleInputFile">Image <small>(Multiple)</small><span
+                                        class="validation">*</span></label>
                                 <div class="">
-                                    <input type="file" name="image" class="form-control" id="imgInp"
-                                        accept="image/*" data-rule-required="true"
+                                    <input type="file" name="image[]" class="form-control" id="imgInp" multiple
+                                        accept="image/*"
                                         data-msg-accept="Please upload file in these format only (jpg, jpeg, png)." />
                                     <input type="hidden" name="oldimage" class="form-control" id="image"
                                         placeholder="showphotos" value="{{ @$photo->image }}">
@@ -69,15 +70,6 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <img id="blah"
-                                style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
-                                @if (@$photo->image) src="{{ @$photo->image }}"
-                                    @else
-                                        src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
-                                onerror="this.src='{{ URL::asset('storage/default/img1.jpg') }}'" alt="Your Slider Image"
-                                width="200px" height="150px" />
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
@@ -109,6 +101,13 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="imagePreview">
+                                <!-- Preview images will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-12">
@@ -125,9 +124,19 @@
 @section('scripts')
     <script>
         imgInp.onchange = evt => {
-            const [file] = imgInp.files
-            if (file) {
-                blah.src = URL.createObjectURL(file)
+            const files = imgInp.files;
+            if (files) {
+                $("#imagePreview").html(""); // Clear previous preview
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const img = document.createElement("img");
+                    img.src = URL.createObjectURL(file);
+                    img.style.cssText =
+                        "border: 1px solid #adb5bd !important; border-radius: 13px !important;margin-right: 11px;margin-bottom: 15px;";
+                    img.width = 200;
+                    img.height = 150;
+                    $("#imagePreview").append(img); // Append each image preview
+                }
             }
         }
 
@@ -157,14 +166,8 @@
                 type: {
                     required: true,
                 },
-                // description: {
-                //     requiredSummernote: true,
-                // },
-                image: {
-                    required: function() {
-                        var image = $('#image').val();
-                        return image == null || image == "" || image == undefined;
-                    },
+                'image[]': {
+                    required: true,
                     extension: "jpg|jpeg|png",
                     filesize: 2
                 },
@@ -175,12 +178,35 @@
                 },
             },
             errorPlacement: function(error, element) {
+                console.log("error", error);
                 if (element.hasClass('select2') && element.next('.select2-container').length) {
                     error.insertAfter(element.next('.select2-container'));
                 } else if (element.hasClass('name_value')) {
                     error.insertAfter(element);
                 } else {
                     error.insertAfter(element);
+                }
+            },
+            submitHandler: function(form) {
+                var files = $('#imgInp')[0].files;
+                var maxSize = 2 * 1024 * 1024; // 2 MB in bytes
+                var valid = true;
+
+                // Check each file size
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].size > maxSize) {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (!valid) {
+                    toastr.error("File size exceeds the limit (2MB).");
+                    $('#imgInp').val(''); // Clear the file input
+                    event.preventDefault(); // Prevent form submission
+                } else {
+                    // Files are valid, submit the form
+                    form.submit();
                 }
             }
         })
