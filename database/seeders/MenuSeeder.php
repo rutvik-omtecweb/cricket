@@ -199,5 +199,13 @@ class MenuSeeder extends Seeder
             'parent_id' => $setting->id,
             'order' => 3,
         ]);
+
+        Menu::create([
+            'menu_name' => 'Player',
+            'icon' => 'fas fa-gamepad',
+            'page_url' => 'admin.player.index',
+            'parent_id' => $member->id,
+            'order' => 4,
+        ]);
     }
 }

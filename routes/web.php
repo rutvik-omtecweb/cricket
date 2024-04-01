@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\NewJoinMemberController;
 use App\Http\Controllers\Admin\PaymentConfigController;
 use App\Http\Controllers\Admin\PhotosController;
+use App\Http\Controllers\Admin\PlayerController as AdminPlayerController;
 use App\Http\Controllers\FrontEnd\ContactUsController as FrontEndContactUsController;
 use App\Http\Controllers\FrontEnd\EventPaymentController;
 use App\Http\Controllers\FrontEnd\PlayerController;
@@ -233,6 +234,10 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
 
     //reject-member-route
     Route::post('toggle-reject-member/{id}', [NewJoinMemberController::class, 'toggleRejectMember']);
+
+    //player route
+    Route::resource('player', AdminPlayerController::class);
+    Route::get('get-player', [AdminPlayerController::class, 'getPlayers'])->name('get.players');
 });
 
 Route::get('/load-more-images', [HomeController::class, 'loadMoreImages'])->name('loadMoreImages');

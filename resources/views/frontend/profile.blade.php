@@ -247,6 +247,133 @@
                                             </div>
                                         @endif
                                     </div>
+
+                                    <div class="tab-pane accordion__panel" id="tab_default_5">
+                                        <form action="{{ route('profile-update') }}" name="user_form" method="post"
+                                            id="user_form" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-6 form-group">
+                                                    <label>First Name <span class="validation">*</span></label>
+                                                    <input type="text" name="first_name" id="first_name"
+                                                        autocomplete="off" class="form-control"
+                                                        value="{{ @$user->first_name }}">
+                                                    @error('first_name')
+                                                        <span class="text-danger">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>Last Name <span class="validation">*</span></label>
+                                                    <input type="text" name="last_name" id="last_name"
+                                                        autocomplete="off" class="form-control"
+                                                        value="{{ @$user->last_name }}">
+                                                    @error('last_name')
+                                                        <span class="text-danger">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>Email <span class="validation">*</span></label>
+                                                    <input type="email" name="email" id="email"
+                                                        autocomplete="off" class="form-control"
+                                                        value="{{ @$user->email }}" readonly>
+                                                    @error('email')
+                                                        <span class="text-danger">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>Phoneno <span class="validation">*</span></label>
+                                                    <input type="number" name="phone" id="phone"
+                                                        autocomplete="off" class="form-control"
+                                                        value="{{ @$user->phone }}">
+                                                    @error('phone')
+                                                        <span class="text-danger">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>Image <span class="validation">*</span></label>
+                                                    <input type="file" name="image" class="form-control"
+                                                        id="imgInp" />
+                                                    <input type="hidden" name="oldimage" class="form-control"
+                                                        id="oldimage" placeholder="showphotos"
+                                                        value="{{ @$user->image }}">
+                                                    @error('image')
+                                                        <span class="text-danger">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <img id="blah"
+                                                        style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
+                                                        @if (@$user->image) src="{{ @$user->image }}"
+                                                        @else
+                                                            src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
+                                                                                onerror="this.src='{{ URL::asset('storage/admin/default/img1.jpg') }}'"
+                                                                                alt="Your Slider Image" width="100px" height="150px" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="tx-ctm-btn" type="submit">Update</button>
+                                            </div>
+                                        </form>
+                                        <h5 style="margin-top: 30px; margin-bottom:20px;">
+                                            Update Password
+                                            ? </h5>
+                                        <div class="card_details">
+                                            <form method="POST" action="{{ route('update.password') }}"
+                                                name="password_form" id="password_form">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label for="current_password">Current Password
+                                                            <span class="validation">*</span></label>
+                                                        <input type="password" name="current_password"
+                                                            class="form-control" id="current_password"
+                                                            value="{{ old('current_password') }}">
+                                                        @error('current_password')
+                                                            <span class="text-danger">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="password">New Password <span
+                                                                class="validation">*</span></label>
+                                                        <input type="password" name="password" class="form-control"
+                                                            id="password" value="{{ old('password') }}">
+                                                        @error('password')
+                                                            <span class="text-danger">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="confirm_password">Confirm New Password
+                                                            <span class="validation">*</span></label>
+                                                        <input type="password" name="confirm_password"
+                                                            class="form-control" id="confirm_password"
+                                                            value="{{ old('confirm_password') }}">
+                                                        @error('confirm_password')
+                                                            <span class="text-danger">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="margin-top: 10px;">
+                                                    <button class="tx-ctm-btn">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
