@@ -105,9 +105,24 @@ class User extends Authenticatable
         return $this->hasOne(PaymentCollect::class, 'user_id', 'id');
     }
 
+    public function player()
+    {
+        return $this->hasOne(Player::class, 'user_id', 'id');
+    }
+
+    public function team_payment()
+    {
+        return $this->hasOne(TeamPayment::class, 'user_id', 'id');
+    }
+
     public function team_member()
     {
         return $this->hasOne(TeamMember::class, 'member_id', 'id');
+    }
+
+    public function event_payment()
+    {
+        return $this->hasMany(EventPayment::class, 'user_id', 'id');
     }
 
 

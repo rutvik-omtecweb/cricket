@@ -5,12 +5,14 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> @if (@$general_setting->site_name)
-        {{ @$general_setting->site_name }}
-    @else
-        Admin
-        Dashboard
-    @endif </title>
+    <title>
+        @if (@$general_setting->site_name)
+            {{ @$general_setting->site_name }}
+        @else
+            Admin
+            Dashboard
+        @endif
+    </title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('storage/frontend/assets/dist/images/main-logo.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Google Font: Source Sans Pro -->

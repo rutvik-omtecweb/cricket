@@ -19,6 +19,8 @@
                                 <div class="col-md-6 text-right">
                                     {{-- <a href="{{ route('admin.teams.create') }}" class="btn btn-primary">
                                         <i class="fa fa-plus"></i>&nbsp;Add</a> --}}
+                                    <a class="btn btn-primary" href="{{ route('team.export') }}">Export Team
+                                        Data</a>
                                 </div>
                             </div>
                         </div>

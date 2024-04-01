@@ -126,7 +126,15 @@ class MenuSeeder extends Seeder
             'icon' => 'fas fa-users',
             'page_url' => 'admin.teams.index',
             'parent_id' => $member->id,
-            'order' => 2,
+            'order' => 3,
+        ]);
+
+        Menu::create([
+            'menu_name' => 'Player',
+            'icon' => 'fas fa-gamepad',
+            'page_url' => 'admin.player.index',
+            'parent_id' => $member->id,
+            'order' => 4,
         ]);
 
         $system = Menu::create([
@@ -160,6 +168,7 @@ class MenuSeeder extends Seeder
             'parent_id' => $system->id,
             'order' => 3,
         ]);
+
 
         $setting = Menu::create([
             'menu_name' => 'Settings',
@@ -201,11 +210,10 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'menu_name' => 'Player',
-            'icon' => 'fas fa-gamepad',
-            'page_url' => 'admin.player.index',
-            'parent_id' => $member->id,
-            'order' => 4,
+            'menu_name' => 'Reports',
+            'icon' => 'fa-search-location',
+            'page_url' => 'admin.reports.index',
+            'order' => 7,
         ]);
     }
 }

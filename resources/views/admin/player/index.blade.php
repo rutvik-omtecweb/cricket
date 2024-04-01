@@ -21,6 +21,8 @@
                                     {{-- <a href="#" class="btn btn-primary">
                                         <i class="fa fa-plus"></i>&nbsp;Add
                                     </a> --}}
+                                    <a class="btn btn-primary" href="{{ route('player.export') }}">Export Player
+                                        Data</a>
                                 </div>
                             </div>
                         </div>
@@ -36,6 +38,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Amount</th>
+                                <th>Payment Type</th>
                             </tr>
                         </thead>
                     </table>
@@ -96,6 +99,17 @@
                     },
                     {
                         data: 'amount',
+                        render: function(data, type, row) {
+                            return row.amount ? ('$' + row.amount) : '-';
+                        }
+                    },
+                    {
+                        data: 'payment_type',
+                        render: function(data, type, row) {
+                            // Check if payment_type exists and convert it to uppercase
+                            return row.payment_type;
+                            // return row.payment_type ? row.payment_type.toUpperCase() : '-';
+                        }
                     },
                 ],
             });

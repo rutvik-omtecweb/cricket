@@ -4,36 +4,37 @@ use App\Models\ContactUs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CMSController;
+use App\Http\Controllers\LiveScoreController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\PhotosController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\FrontEnd\UserController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\FrontEnd\PlayerController;
 use App\Http\Controllers\Admin\TournamentController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Amin\EmailTemplateController;
+use App\Http\Controllers\Admin\NewJoinMemberController;
+use App\Http\Controllers\Admin\PaymentConfigController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\GeneralSettingController;
 use App\Http\Controllers\Admin\HomePageContentController;
-use App\Http\Controllers\Admin\MemberController;
-use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\Admin\NewJoinMemberController;
-use App\Http\Controllers\Admin\PaymentConfigController;
-use App\Http\Controllers\Admin\PhotosController;
-use App\Http\Controllers\Admin\PlayerController as AdminPlayerController;
-use App\Http\Controllers\FrontEnd\ContactUsController as FrontEndContactUsController;
 use App\Http\Controllers\FrontEnd\EventPaymentController;
-use App\Http\Controllers\FrontEnd\PlayerController;
+use App\Http\Controllers\Admin\PlayerController as AdminPlayerController;
 use App\Http\Controllers\FrontEnd\TeamController as FrontEndTeamController;
-use App\Http\Controllers\LiveScoreController;
+use App\Http\Controllers\FrontEnd\ContactUsController as FrontEndContactUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -238,6 +239,9 @@ Route::group(['middleware' => ['auth', 'role:super admin|admin', 'prevent-back-h
     //player route
     Route::resource('player', AdminPlayerController::class);
     Route::get('get-player', [AdminPlayerController::class, 'getPlayers'])->name('get.players');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('member-payment-report', [ReportController::class, 'memberPaymentReport'])->name('member.payment.report');
 });
 
 Route::get('/load-more-images', [HomeController::class, 'loadMoreImages'])->name('loadMoreImages');
@@ -257,3 +261,7 @@ Route::group(['middleware' => ['auth', 'role:member', 'prevent-back-history']], 
     Route::get('buy-team', [FrontEndTeamController::class, 'index'])->name('buy.team');
     Route::post('teamStore', [FrontEndTeamController::class, 'teamStore'])->name('store.team');
 });
+
+//export route
+Route::get('team-export', [TeamController::class, 'export'])->name('team.export');
+Route::get('team-player', [AdminPlayerController::class, 'export'])->name('player.export');

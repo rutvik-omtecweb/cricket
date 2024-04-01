@@ -32,11 +32,18 @@ class TeamController extends Controller
             'team_name' => 'required|unique:teams,team_name,id',
         ]);
 
+        // Validate if at least one player is selected
+        if (empty($request->member_id)) {
+            return response()->json(['status' => false, "message" => "Please select at least one player."]);
+        }
+
         $payment = Payment::where('title', 'Team Registration Fees')->first();
 
         if (empty($payment)) {
             return response()->json(['status' => false, "message" => "Failed to retrieve payment amount. Please try again later."]);
         }
+
+
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Exports\PlayerExport;
 use App\Models\Player;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PlayerController extends Controller
 {
@@ -82,6 +84,7 @@ class PlayerController extends Controller
         if ($searchValue) {
             $records = $records->where(function ($query) use ($searchValue) {
                 $query->where('amount', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('payment_type', 'LIKE', '%' . $searchValue . '%')
                     ->orWhereHas('user', function ($query) use ($searchValue) {
                         $query->where('first_name', 'LIKE', '%' . $searchValue . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $searchValue . '%')
@@ -91,6 +94,7 @@ class PlayerController extends Controller
                     });
             });
         }
+
 
         $records = $records->latest()
             ->skip($start)
@@ -105,5 +109,13 @@ class PlayerController extends Controller
         );
 
         return response()->json($response);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function export()
+    {
+        return Excel::download(new PlayerExport, 'player.xlsx');
     }
 }

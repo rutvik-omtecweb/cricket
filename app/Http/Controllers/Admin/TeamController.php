@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\TeamExport;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Player;
@@ -9,6 +10,7 @@ use App\Models\TeamMember;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TeamController extends Controller
 {
@@ -199,5 +201,13 @@ class TeamController extends Controller
             'is_active' => !$teams->is_active,
         ]);
         return response()->json(['success' => true, 'message' => 'Teams status updated successfully.']);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function export()
+    {
+        return Excel::download(new TeamExPort, 'team.xlsx');
     }
 }

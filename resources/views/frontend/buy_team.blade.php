@@ -90,21 +90,29 @@
                                         @php
                                             $counter = 1;
                                         @endphp
-                                        @forelse(@$player as $players)
+                                        @if (count(@$player) > 0)
+                                            @foreach (@$player as $players)
+                                                <tr>
+                                                    <th><input class="form-check-input" name="member_id[]" type="checkbox"
+                                                            value="{{ $players->id }}" id="flexCheckIndeterminate"></th>
+                                                    <th>{{ $counter }}</th>
+                                                    <td>{{ $players->user->first_name }} {{ $players->user->last_name }}
+                                                    </td>
+                                                    <td>{{ $players->user->phone }}</td>
+                                                    <td>{{ $players->user->address ?? '-' }}</td>
+                                                    <td>{{ $players->user->gender ?? '-' }}</td>
+                                                </tr>
+                                                @php
+                                                    $counter++;
+                                                @endphp
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <th><input class="form-check-input" name="member_id[]" type="checkbox"
-                                                        value="{{ $players->id }}" id="flexCheckIndeterminate"></th>
-                                                <th>{{ $counter }}</th>
-                                                <td>{{ $players->user->first_name }} {{ $players->user->last_name }}</td>
-                                                <td>{{ $players->user->phone }}</td>
-                                                <td>{{ $players->user->address ?? '-' }}</td>
-                                                <td>{{ $players->user->gender ?? '-' }}</td>
+                                                <td colspan="5">
+                                                    <h5 class="text-center mt-2">Player Not Found!!</h5>
+                                                </td>
                                             </tr>
-                                            @php
-                                                $counter++;
-                                            @endphp
-                                        @empty
-                                        @endforelse
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -127,6 +135,7 @@
         }
         $(document).ready(function() {
             var form = $('#buyTeam');
+
             form.validate({
                 errorClass: 'text-danger',
                 rules: {
