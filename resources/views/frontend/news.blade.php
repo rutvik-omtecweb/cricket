@@ -5,7 +5,8 @@
 @endsection
 @section('content')
 
-    <section class="breadcrumbs" style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
+    <section class="breadcrumbs"
+        style="background-image: url({{ asset('storage/frontend/assets/dist/images/about-header.jpg') }})">
         <div class="page-title">
             <h2>News<br> CRICKET ASSOCIATION</h2>
         </div>
@@ -31,7 +32,7 @@
                                 <div class="card-body">
                                     {{-- <p class="blog-hashtag">#Food #Pizza</p> --}}
                                     <h2 class="blog-title">{{ $ndata->news_name }}</h2>
-                                    <p class="blog-description">{{ $ndata->description }}</p>
+                                    <p class="blog-description">{!! $ndata->description !!}</p>
                                 </div>
                             </a>
                         </div>

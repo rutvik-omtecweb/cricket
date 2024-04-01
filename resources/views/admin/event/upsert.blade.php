@@ -76,7 +76,7 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- <div class="col-md-3">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="number_of_team">Number Of Team <span class="validation">*</span></label>
                                 <input type="number" name="number_of_team" class="form-control" id="number_of_team"
@@ -87,7 +87,32 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div> --}}
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="team_price">Team Price<span class="validation">*</span></label>
+                                <input type="number" name="team_price" class="form-control" id="team_price"
+                                    value="{{ @$event->team_price }}" min="0" placeholder="Team Price">
+                                @error('team_price')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="participant_price">Participant Price<span class="validation">*</span></label>
+                                <input type="number" name="participant_price" class="form-control" id="participant_price"
+                                    value="{{ @$event->participant_price }}" min="0"
+                                    placeholder="Participant Price">
+                                @error('participant_price')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputFile">Image <span class="validation">*</span></label>
@@ -114,16 +139,17 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="exampleInputFile"><i class="fa fa-map-marker"></i>&nbsp;&nbsp; Location <span class="validation">*</span></label>
+                                <label for="exampleInputFile"><i class="fa fa-map-marker"></i>&nbsp;&nbsp; Location <span
+                                        class="validation">*</span></label>
                                 <textarea name="location" id="location" cols="30" rows="2" class="form-control">{{ @$event->location }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="exampleInputFile">Description <span class="validation">*</span></label>
-                                <textarea name="description" id="content" placeholder="Description" cols="20" rows="20" maxlength="250"
-                                    class="form-control">{{ @$event->description }}</textarea>
-                                    <span id="content_error" class="error"></span>
+                                <textarea name="description" id="content" placeholder="Description" cols="20" rows="20"
+                                    maxlength="250" class="form-control">{{ @$event->description }}</textarea>
+                                <span id="content_error" class="error"></span>
 
                                 @error('description')
                                     <span class="text-danger">
@@ -183,8 +209,8 @@
         }, 'File size must be less than {0} MB');
 
         jQuery.validator.addMethod("requiredSummernote", function() {
-                return !($("#content").summernote('isEmpty'));
-            }, 'This field is required.');
+            return !($("#content").summernote('isEmpty'));
+        }, 'This field is required.');
 
         jQuery.validator.addMethod("greaterThan",
             function(value, element, params) {
@@ -213,9 +239,15 @@
                     required: true,
                     greaterThan: "#start_date"
                 },
-                // number_of_team: {
-                //     required: true,
-                // },
+                number_of_team: {
+                    required: true,
+                },
+                team_price: {
+                    required: true,
+                },
+                participant_price: {
+                    required: true,
+                },
                 location: {
                     required: true,
                 },
@@ -242,11 +274,9 @@
             errorPlacement: function(error, element) {
                 if (element.hasClass('select2')) {
                     error.insertAfter(element.next('.select2-container'));
-                }
-                else if (element.attr("name") == "description") {
-                        error.appendTo('#content_error');
-                }
-                 else if (element.attr("type") == "checkbox") {
+                } else if (element.attr("name") == "description") {
+                    error.appendTo('#content_error');
+                } else if (element.attr("type") == "checkbox") {
                     error.insertAfter(element.closest('.event-checkbox'));
                 } else {
                     error.insertAfter(element);

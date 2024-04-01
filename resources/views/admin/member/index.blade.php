@@ -19,12 +19,8 @@
                                 <div class="col-md-6 text-right">
                                     <button type="button" onclick="showImport()" class="btn btn-primary"><i
                                             class="fa fa-upload"></i>&nbsp;Import</button>
-                                    <a href="{{ asset('storage/import/member.xlsx') }}" download class="btn btn-primary"><i
-                                            class="fa fa-download"></i>&nbsp;Sample File</a>
-                                    <!-- Right side content -->
-                                    {{-- <a href="#" class="btn btn-primary">
-                                        <i class="fa fa-plus"></i>&nbsp;Add
-                                    </a> --}}
+                                    {{-- <a href="{{ asset('storage/import/member.xlsx') }}" download class="btn btn-primary"><i
+                                            class="fa fa-download"></i>&nbsp;Sample File</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -62,13 +58,21 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="import_file">Choose File <span class="validation">*</span></label>
-                                    <input type="file" name="import_file" class="form-control" id="import_file"
-                                        data-msg-accept="The file must be of type: csv, xls, xlsx."
-                                        placeholder="Choose File"
-                                        accept=".csv, text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                                    <span id="import_file_error" class="error"></span>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="import_file">Choose File <span class="validation">*</span></label>
+                                        <input type="file" name="import_file" class="form-control" id="import_file"
+                                            data-msg-accept="The file must be of type: csv, xls, xlsx."
+                                            placeholder="Choose File"
+                                            accept=".csv, text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                        <span id="import_file_error" class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <a href="{{ asset('storage/import/member.xlsx') }}" download
+                                            class="btn btn-primary"><i class="fa fa-download"></i>&nbsp;Sample File</a>
+                                    </div>
                                 </div>
                                 <div id="loader" class="overlay dark" style="display: none;">
                                     <i class="fas fa-2x fa-sync-alt"></i>

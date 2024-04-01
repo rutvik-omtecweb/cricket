@@ -50,14 +50,14 @@
                         <p>{{ $endDate->format('d M') }} <br><span class="box-span">{{ $endDate->format('Y') }}</span></p>
                     </div>
                 </div>
-                {{-- @auth
+                @auth
                     <div class="col-md-4">
                         <div class="addition-information">
                             <h3>Total Numbers Of Team</h3>
                             <p>{{ @$event->number_of_team }} <br><span class="box-span">Team</span></p>
                         </div>
                     </div>
-                @endauth --}}
+                @endauth
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            {{-- <div class="row other-info text-center">
+            <div class="row other-info text-center">
                 <div class="col-12">
                     <p class="mainhead">Join Us</p>
                 </div>
@@ -114,23 +114,24 @@
                         @endif
                     </div>
                 </div>
-                @auth
-                    @if (!empty($ch_player))
-                        <div class="col-md-4">
-                            <div class="payment-box">
-                                <h3>Join as a Participant </h3>
-                                <p class="price">{{ number_format($event->participant_price, 0, '.', '') }}$</p>
-                                @auth
-                                    <button class="payment-link" onclick="joinParticipant('{{ $event->id }}')">Procee With
-                                        Payment</button>
-                                @else
-                                    <button class="payment-link-disable" disabled>Procee With Payment</button>
-                                @endauth
-                            </div>
-                        </div>
-                    @endif
-                @endauth
-            </div> --}}
+                <div class="col-md-4">
+                    <div class="payment-box">
+                        <h3>Join as a Participant </h3>
+                        <p class="price">{{ number_format($event->participant_price, 0, '.', '') }}$</p>
+                        @auth
+                            @if (!empty($ch_player))
+                                <button class="payment-link" onclick="joinParticipant('{{ $event->id }}')">Procee With
+                                    Payment</button>
+                            @else
+                                <button class="payment-link-disable" disabled>Register as Player First</button>
+                            @endif
+                        @else
+                            <button class="payment-link-disable" disabled>Procee With Payment</button>
+                        @endauth
+
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection

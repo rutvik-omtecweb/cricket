@@ -54,9 +54,6 @@
                                     <li>
                                         <a href="#tab_default_3" data-toggle="tab"> Payment Detail</a>
                                     </li>
-                                    {{-- <li>
-                                        <a href="#tab_default_4" data-toggle="tab">Event Payment Detail</a>
-                                    </li> --}}
                                 </ul>
                                 <div class="tab-content accordion">
                                     <div class="tab-pane accordion__panel active" id="tab_default_1">
@@ -199,209 +196,57 @@
                                                 </table>
                                             </div>
                                         @endif
-                                    </div>
 
-                                    <div class="tab-pane accordion__panel" id="tab_default_4">
-                                        <div class="register-payment">
-                                            <table id="cart" class="table table-hover table-condensed">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width:5%"></th>
-                                                        <th style="width:15%">Date</th>
-                                                        <th style="width:15%">Event</th>
-                                                        <th style="width:10%">Price</th>
-                                                        <th style="width:10%">Payment Type</th>
-                                                        <th style="width:10%">Payment For</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (count($event_payments) > 0)
-                                                        @foreach ($event_payments as $e_payment)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration }}</td>
-                                                                <td data-th="date">
-                                                                    {{ \Carbon\Carbon::parse($e_payment->created_at)->format('d-M-Y, g:i A') }}
-                                                                </td>
-                                                                <td>
-                                                                    {{ @$e_payment->event->title }}
-                                                                </td>
-                                                                <td>
-                                                                    {{ @$e_payment->amount }}
-                                                                </td>
-                                                                <td data-th="Price" style="text-transform: uppercase;">
-                                                                    {{ $e_payment->payment_type }}</td>
-                                                                <td data-th="status" class="status event">
-                                                                    @if ($e_payment->payment_for == 'purchase_team')
-                                                                        <span class="approved">Purchase Team</span>
-                                                                    @else
-                                                                        <span class="event on-hold">Participant</span>
-                                                                    @endif
-
-                                                            </tr>
-                                                            </td>
-                                                        @endforeach
-                                                    @else
+                                        @if (count($event_payments) > 0)
+                                            <div class="register-payment mt-4">
+                                                <h4 style="background-color: beige;">Event Payment Detail</h4>
+                                                <table id="cart" class="table table-hover table-condensed">
+                                                    <thead>
                                                         <tr>
-                                                            <td colspan="4">Event Payment Detail Not Found !!</td>
+                                                            <th style="width:5%"></th>
+                                                            <th style="width:15%">Date</th>
+                                                            <th style="width:15%">Event</th>
+                                                            <th style="width:10%">Price</th>
+                                                            <th style="width:10%">Payment Type</th>
+                                                            <th style="width:10%">Payment For</th>
                                                         </tr>
-                                                    @endif
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (count($event_payments) > 0)
+                                                            @foreach ($event_payments as $e_payment)
+                                                                <tr>
+                                                                    <td>{{ $loop->iteration }}</td>
+                                                                    <td data-th="date">
+                                                                        {{ \Carbon\Carbon::parse($e_payment->created_at)->format('d-M-Y, g:i A') }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ @$e_payment->event->title }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ @$e_payment->amount }}
+                                                                    </td>
+                                                                    <td data-th="Price" style="text-transform: uppercase;">
+                                                                        {{ $e_payment->payment_type }}</td>
+                                                                    <td data-th="status" class="status event">
+                                                                        @if ($e_payment->payment_for == 'purchase_team')
+                                                                            <span class="approved">Purchase Team</span>
+                                                                        @else
+                                                                            <span class="event on-hold">Participant</span>
+                                                                        @endif
+
+                                                                </tr>
+                                                                </td>
+                                                            @endforeach
+                                                        @else
+                                                            <tr>
+                                                                <td colspan="4">Event Payment Detail Not Found !!</td>
+                                                            </tr>
+                                                        @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @endif
                                     </div>
-                                    {{-- <div class="tab-pane accordion__panel" id="tab_default_4">
-                                        <p class="mb-5 text-center">The following addresses will be used on the checkout
-                                            page by default.</p>
-                                        <div class="row">
-                                            <div class="address-info col-md-6 col-12">
-                                                <h5 class="section-title">Billing Address</h5>
-                                                <ul>
-                                                    <li><span>7000, WhiteField, Manchester Highway, London. 401203</span>
-                                                    </li>
-                                                    <li>Phone no: <a href="#">+91 1234567890</a></li>
-                                                    <li>Email: <a href="#">youremail@domain.com</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="address-info col-md-6 col-12">
-                                                <h5 class="section-title">Billing Address</h5>
-                                                <ul>
-                                                    <li><span>7000, WhiteField, Manchester Highway, London. 401203</span>
-                                                    </li>
-                                                    <li>Phone no: <a href="#">+91 1234567890</a></li>
-                                                    <li>Email: <a href="#">youremail@domain.com</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    {{-- <div class="tab-pane accordion__panel" id="tab_default_5">
-                                        <form action="{{ route('profile-update') }}" name="user_form" method="post"
-                                            id="user_form" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-6 form-group">
-                                                    <label>First Name <span class="validation">*</span></label>
-                                                    <input type="text" name="first_name" id="first_name"
-                                                        autocomplete="off" class="form-control"
-                                                        value="{{ @$user->first_name }}">
-                                                    @error('first_name')
-                                                        <span class="text-danger">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label>Last Name <span class="validation">*</span></label>
-                                                    <input type="text" name="last_name" id="last_name"
-                                                        autocomplete="off" class="form-control"
-                                                        value="{{ @$user->last_name }}">
-                                                    @error('last_name')
-                                                        <span class="text-danger">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label>Email <span class="validation">*</span></label>
-                                                    <input type="email" name="email" id="email"
-                                                        autocomplete="off" class="form-control"
-                                                        value="{{ @$user->email }}" readonly>
-                                                    @error('email')
-                                                        <span class="text-danger">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label>Phoneno <span class="validation">*</span></label>
-                                                    <input type="number" name="phone" id="phone"
-                                                        autocomplete="off" class="form-control"
-                                                        value="{{ @$user->phone }}">
-                                                    @error('phone')
-                                                        <span class="text-danger">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <label>Image <span class="validation">*</span></label>
-                                                    <input type="file" name="image" class="form-control"
-                                                        id="imgInp" />
-                                                    <input type="hidden" name="oldimage" class="form-control"
-                                                        id="oldimage" placeholder="showphotos"
-                                                        value="{{ @$user->image }}">
-                                                    @error('image')
-                                                        <span class="text-danger">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="col-6 form-group">
-                                                    <img id="blah"
-                                                        style="border: 1px solid #adb5bd !important; border-radius: 13px !important;"
-                                                        @if (@$user->image) src="{{ @$user->image }}"
-                                @else
-                                    src="{{ URL::asset('storage/admin/default/img1.jpg') }}" @endif
-                                                        onerror="this.src='{{ URL::asset('storage/admin/default/img1.jpg') }}'"
-                                                        alt="Your Slider Image" width="100px" height="150px" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="tx-ctm-btn" type="submit">Update</button>
-                                            </div>
-                                        </form>
-                                        <h5 style="margin-top: 30px; margin-bottom:20px;">
-                                            Update Password
-                                            ? </h5>
-                                        <div class="card_details">
-                                            <form method="POST" action="{{ route('update.password') }}"
-                                                name="password_form" id="password_form">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <label for="current_password">Current Password
-                                                            <span class="validation">*</span></label>
-                                                        <input type="password" name="current_password"
-                                                            class="form-control" id="current_password"
-                                                            value="{{ old('current_password') }}">
-                                                        @error('current_password')
-                                                            <span class="text-danger">
-                                                                <strong>{{ $message }}</strong>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="password">New Password <span
-                                                                class="validation">*</span></label>
-                                                        <input type="password" name="password" class="form-control"
-                                                            id="password" value="{{ old('password') }}">
-                                                        @error('password')
-                                                            <span class="text-danger">
-                                                                <strong>{{ $message }}</strong>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="confirm_password">Confirm New Password
-                                                            <span class="validation">*</span></label>
-                                                        <input type="password" name="confirm_password"
-                                                            class="form-control" id="confirm_password"
-                                                            value="{{ old('confirm_password') }}">
-                                                        @error('confirm_password')
-                                                            <span class="text-danger">
-                                                                <strong>{{ $message }}</strong>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" style="margin-top: 10px;">
-                                                    <button class="tx-ctm-btn">Update</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div> --}}
-                                    {{-- <div class="tab-pane accordion__panel" id="tab_default_6">
-                                        <p> Account logout. </p>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -409,7 +254,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 @endsection
 
